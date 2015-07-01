@@ -1,389 +1,1837 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+    <title>RxJava - reactive programming for Android</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+    <meta name="description" content="Lets face it, asynchronous programming is awful. If you are an experienced Java developer, reactive programming will give you a new way to approach scalability and concurrency in your backend systems, without forcing you to switch programming languages.">
+    <meta name="author" content="Sergii Pechenizkyi">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="revealjs/css/reveal.css">
-		<link rel="stylesheet" href="revealjs/css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="revealjs/css/reveal.css">
+    <link rel="stylesheet" href="revealjs/css/theme/black.css" id="theme">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
+    <!-- Printing and PDF exports -->
+    <script>
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'revealjs/css/print/pdf.css' : 'revealjs/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
 
-	<body>
+<body>
 
-		<div class="reveal">
+<div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
-				</section>
+    <!-- Any section element inside of this container is displayed as a slide -->
 
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+    <div class="slides">
+        <section id="title">
+            <h1>RxJava</h1>
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
+            <h3>Reactive programming for Android</h3>
 
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
+            <p>
+                <small>Created by <a href="https://github.com/plastiv">Sergii Pechenizkyi</a> / <a href="http://twitter.com/plastiv">@plastiv</a>
+                </small>
+            </p>
+        </section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
+        <section id="motivation">
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+            <section>
+                <p><q
+                        cite="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">
+                    &ldquo;anything that can be done asynchronously should be;
+                    the UI Thread should be used just for core UI Thread operations&rdquo;</q>
+                </p>
+                <p><a href="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">https://medium.com/google-developers/developing-for-android-iii-2efc140167fd</a></p>
+            </section>
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
 
-						```
-						<section data-markdown>
-						  ## Markdown support
+            <section>
+                <h2>Motivation</h2>
 
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
+                <ul>
+                    <li>Modern applications are inherently concurrent.</li>
+                    <li class="fragment">Writing concurrent programs that are correct is difficult.</li>
+                </ul>
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+                <aside class="notes">
+                    <p>Asynchronous and reactive methodologies allow you to better utilize system resources. Instead of wasting a thread waiting for network (or disk) IO, it can be fully utilized to perform other work instead.</p>
+                    <p>A broad range of technologies exists to facilitate this style of programming, ranging from the very limited and not really usable java.util.concurrent.Future, to full blown libraries and runtimes like Akka (and everything in between).</p>
+                    <p>one library stood out: RxJava. It has a very rich set to compose asynchronous workflows, has no dependencies on its own and is used at high-profile companies like Netflix. The Rx model (more on that a little later) is mature and well-thought and the community is vibrant.</p>
+                    <p>We hope that once you read through the introduction and get more familiar with the concept, you never want to go back. We certainly don't.</p>
+                </aside>
+            </section>
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
+        </section>
 
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
 
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
 
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
+        <section id="history">
+            <h2>Some time ago</h2>
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
+            <ul>
+                <li>(June 2009) - First video about Rx.NET on Microsoft's Channel 9 dev portal</li>
+                <li class="fragment">(mid 2011)  - Rx.NET official release</li>
+                <li class="fragment">(Feb 2013)  - Netflix goes public w/ a independent Rx port: RxJava</li>
+                <li class="fragment">(Aug 2013)  - Reactive Programming on Android With RxJava article</li>
+                <li class="fragment">(Nov 2014)  - RxJava release</li>
+            </ul>
+        </section>
 
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
 
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
 
-    var nodes = document.querySelectorAll( selector );
+        <section id="java8">
+        <section>
+            <h2>Java 8, Lambdas and Anonymous Classes</h2>
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+            <pre><code data-trim>
+// Loads 3 documents in parallel
+Observable
+    .just(&quot;doc1&quot;, &quot;doc2&quot;, &quot;doc3&quot;)
+    .flatMap(new Func1&lt;String, Observable&lt;JsonDocument&gt;&gt;() {
+        @Override
+        public Observable&lt;JsonDocument&gt; call(String id) {
+            return bucket.get(id);
+        }
+    }).subscribe(new Action1&lt;JsonDocument&gt;() {
+        @Override
+        public void call(JsonDocument document) {
+            System.out.println(&quot;Got: &quot; + document);
+        }
+    });
+            </code></pre>
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
+            <aside class="notes">
+                <p>Before jumping into the details, one thing warrants clarification: RxJava, and therefore the Java SDK fully supports Java 8. This brings some great improvements, most prominently support for lambdas and method references.</p>
+                <p>Because the Java SDK has support for Java 6 and 7, most of the examples shown in the documentation use anonymous classes instead of lambdas. You are free and even encouraged to use them if you are able to, but Java 8 on production servers is still a few months/years away at most companies.</p>
+                <p>That said, we expect the SDK to be around for a long time and want to pave the way for the future right now. To whet your appetite, compare Java 6 code to Java 8 (same code):</p>
+                <p>Also, RxJava has support for other languages like Scala, Groovy or Clojure. If you are using one of those languages, please refer to the RxJava documentation on how to use the adapters.</p>
+            </aside>
+        </section>
+
+
+        <section>
+            <h2>Java 8, Lambdas and Anonymous Classes</h2>
+
+            <pre><code data-trim>
+// Loads 3 documents in parallel
+Observable
+    .just("doc1", "doc2", "doc3")
+    .flatMap(bucket::get)
+    .subscribe(document -> System.out.println("Got: " + document));
+            </code></pre>
+        </section>
+        </section>
+
+
+
+        <section id="understanding">
+        <section>
+            <h2>Understanding Observables</h2>
+
+            <img data-src="images/mental-shift.png"
+                 alt="Understanding Observables: mental shift">
+        </section>
+
+
+        <section>
+            <h2>Understanding Observables</h2>
+
+            <table class="reveal">
+                <tr>
+                    <td>Event</td>
+                    <td>Iterable (pull)</td>
+                    <td>Observable (push)</td>
+                </tr>
+                <tr>
+                    <td>Retrieve data</td>
+                    <td>T next()</td>
+                    <td>onNext(T)</td>
+                </tr>
+                <tr class="fragment">
+                    <td>Discover error</td>
+                    <td>throws Exception</td>
+                    <td>onError(Exception)</td>
+                </tr>
+                <tr class="fragment">
+                    <td>Complete</td>
+                    <td>!hasNext()</td>
+                    <td>onCompleted</td>
+                </tr>
+                <tr class="fragment">
+                    <td>Stop</td>
+                    <td>break;</td>
+                    <td>unsubscribe()</td>
+                </tr>
+                <tr class="fragment">
+                    <td>Backpressure</td>
+                    <td>next()...next()</td>
+                    <td>request(n)</td>
+                </tr>
+            </table>
+
+            <aside class="notes">
+                <p>You can think of a Observable as the push-based, asynchronous cousin (&quot;dual&quot;) of the pull-based, synchronous Iterable. The contract of a Observable is that zero to N data events can happen, followed by a complete event. In addition, an error event can happen at any time, also completing the Observable.</p>
+                <p>A Observable can also be converted into a BlockingObservable, which then, unsurprisingly, behaves very much like a Iterable.</p>
+                <p>The key element to take away is that a Observable&lt;T&gt; can emit 0 to N events, which is very different of a Future&lt;T&gt;, which only contains one value. Once you start to work on streams instead of single values, you will very much appreciate this fact.</p>
+            </aside>
+        </section>
+
+
+            <section>
+                <h2>Understanding Observables</h2>
+
+                <pre><code data-trim>
+public interface FooService {
+    Observable&lt;String&gt; load();
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>by definition, a Observable does not imply that the underlying code is executed asynchronously. As a consumer of an Observable, you leave the actual implementation to the supplier, who is able to change it later on without you having to adapt your code. Imagine, you are consuming this API:</p>
+                    <p>It could be that when load() is called, the String value is fetched right out of a Map in memory (or even a hard-coded value). In this case, there is no need to move the execution away from the caller thread, because the value will be returned instantaneously. If at a later point the implementation needs to be changed so that the String is loaded through a web service (which introduces latency and other semantics), the API doesn't need to be changed, because the underlying implementation is free to move it to a Scheduler.</p>
+                </aside>
+            </section>
+        </section>
+
+
+
+        <section id="consuming">
+        <section>
+            <h2>Consuming Observables</h2>
+
+            <div style="position:relative;">
+
+            <pre style="stretch"><code data-trim>
+Observable
+    .just(1, 2, 3)
+    .subscribe(new Subscriber&lt;Integer&gt;() {
+        @Override
+        public void onCompleted() {
+            System.out.println(&quot;Completed Observable.&quot;);
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            System.err.println(&quot;Whoops: &quot; + throwable.getMessage());
+        }
+
+        @Override
+        public void onNext(Integer integer) {
+            System.out.println(&quot;Got: &quot; + integer);
+        }
+    });
+            </code></pre>
+            <pre class="fragment" style="width:30%;top: 0px;right: 0px;position: absolute;"><code data-trim>
+// This prints:
+Got: 1
+Got: 2
+Got: 3
+Completed Observable.
+            </code></pre>
+            </div>
+
+            <aside class="notes">
+                <p>The first thing you want to do when working with Observables is to consume them. Consuming a Observable means subscribing to it. Here is an example which subscribes and prints out all the items emitted:</p>
+                <p>You can see that our Observer gets notified of every event and also receives the completed event.</p>
+                <p>A well-formed Observable will invoke its Subscriber’s onNext method zero or more times, and then will invoke either the onCompleted or onError method exactly once.</p>
+            </aside>
+        </section>
+
+
+        <section>
+            <h2>Consuming Observables</h2>
+
+            <pre class="stretch"><code data-trim>
+Observable
+    .just(1, 2, 3)
+    .doOnNext(new Action1&lt;Integer&gt;() {
+        public void call(Integer integer) {
+            if (integer.equals(2)) {
+                throw new RuntimeException(&quot;I don't like 2&quot;);
+            }
+        }
+    })
+    .subscribe(new Subscriber&lt;Integer&gt;() {
+        public void onCompleted() {
+            System.out.println(&quot;Completed Observable.&quot;);
+        }
+
+        public void onError(Throwable throwable) {
+            System.err.println(&quot;Whoops: &quot; + throwable.getMessage());
+        }
+
+        public void onNext(Integer integer) {
+            System.out.println(&quot;Got: &quot; + integer);
+        }
+    });
+            </code></pre>
+            <pre class="fragment"><code data-trim>
+// This prints:
+Got: 1
+Whoops: I don't like 2
+            </code></pre>
+
+            <aside class="notes">
+                <p>You can also test the error case by throwing an artificial exception when the value 2 is emitted:</p>
+                <p>The first value gets through without problems, the second value throws an exception and therefore terminates the observable (and no subsequent values are allowed to be emitted after a error event).</p>
+            </aside>
+        </section>
+
+
+        <section>
+            <h2>Consuming Observables</h2>
+
+            <pre class="stretch"><code data-trim>
+Observable
+    .just(&quot;The&quot;, &quot;Dave&quot;, &quot;Brubeck&quot;, &quot;Quartet&quot;, &quot;Time&quot;, &quot;Out&quot;)
+    .take(5)
+    .subscribe(new Subscriber&lt;String&gt;() {
+        public void onCompleted() {
+            System.out.println(&quot;Completed Observable.&quot;);
+        }
+
+        public void onError(Throwable throwable) {
+            System.err.println(&quot;Whoops: &quot; + throwable.getMessage());
+        }
+
+        public void onNext(String name) {
+            System.out.println(&quot;Got: &quot; + name);
+        }
+    });
+            </code></pre>
+            <pre class="fragment"><code data-trim>
+// This prints:
+Got: The
+Got: Dave
+Got: Brubeck
+Got: Quartet
+Got: Time
+Completed Observable.
+            </code></pre>
+
+            <aside class="notes">
+                <p>The subscribe method also returns a Subscription which you can use to unsubscribe and therefore do not receive further events.</p>
+                <p>Even if you don't unsubscribe explicitly, operations like take do that for you implicitly. The following code only takes the first five values and then unsubscribes:</p>
+            </aside>
+        </section>
+
+
+        <section>
+            <h2>Consuming Observables</h2>
+
+            <pre><code data-trim>
+Observable
+    .just(1, 2, 3)
+    .subscribe(new Action1&lt;Integer&gt;() {
+        @Override
+        public void call(Integer integer) {
+            System.out.println(&quot;Got: &quot; + integer);
+        }
+    });
+            </code></pre>
+            <pre class="fragment"><code data-trim>
+Exception in thread "main" rx.exceptions.OnErrorNotImplementedException
+	at rx.Observable$36.onError(Observable.java:8412)
+	at rx.observers.SafeSubscriber._onError(SafeSubscriber.java:128)
+	at rx.observers.SafeSubscriber.onError(SafeSubscriber.java:97)
+	at rx.internal.operators.OperatorDoOnEach$1.onError(OperatorDoOnEach.java:67)
+	at rx.internal.operators.OperatorDoOnEach$1.onNext(OperatorDoOnEach.java:78)
+	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:76)
+	...
+            </code></pre>
+
+            <aside class="notes">
+                <p>If you take a close look at the API, subscribe() can be fed with either an Observer or a Subscriber. Unless you are implementing a custom Observer, always use Subscriber (because otherwise it will be wrapped in one internally anyway and you are saving unnecessary object allocations).</p>
+
+                <p>You do not need to implement the full Subscriber every time. If you are only interested in the data events, you can subscribe like this:</p>
+                <p>Be aware though that if an error happens, the following exception will be propagated:</p>
+                <p>It is recommended to always implement an error handler right from the beginning, since things can and will go wrong at some point. It can come in handy though if you just want to try things out quickly or for illustrative purposes.</p>
+            </aside>
+        </section>
+
+        </section>
+
+
+
+        <section id="async-to-sync">
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+public static void main(String... args) {
+    Observable
+        .interval(1, TimeUnit.SECONDS)
+        .subscribe(new Action1&lt;Long&gt;() {
+            @Override
+            public void call(Long counter) {
+                System.out.println(&quot;Got: &quot; + counter);
+            }
+        });
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>As long as your Observable works on the same thread all the time, there is no need for communication between threads since only one is executing. When your Observable flow gets executed on a different thread though, you need to take some extra care to make sure you are not missing values. This is not specific to Observables though, every time you need to deal with parallel threads you need to think about synchronization and communication.</p>
+                    <p>The following code emits a increasing value every second, and this is done on a different thread:</p>
+                    <p>It works perfectly fine, the only problem is though chances are you won't see anything printed out. This is because your main thread exits before the background thread had a chance to run and emit values.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+final CountDownLatch latch = new CountDownLatch(5);
+Observable
+    .interval(1, TimeUnit.SECONDS)
+    .subscribe(new Action1&lt;Long&gt;() {
+        @Override
+        public void call(Long counter) {
+            latch.countDown();
+            System.out.println(&quot;Got: &quot; + counter);
+        }
+    });
+
+latch.await();
+                </code></pre>
+
+                <pre class="fragment"><code data-trim>
+Got: 0
+Got: 1
+Got: 2
+Got: 3
+Got: 4
+                </code></pre>
+
+                <aside class="notes">
+                    <p>A common way to deal with such a situation is to add a CountDownLatch, which allows you to synchronize between different threads. One thread counts down the latch, the other one waits until it is counted down:</p>
+                    <p>One common mistake is to use Thread.sleep() instead of a latch to synchronize the execution between threads. This is a bad idea because it not really synchronizes anything, but just keeps one thread alive for a specific amount of time. If the actual calls take less time you are wasting time, and if it takes longer you won't get the desired effect. If you do this in unit tests, be prepared for a good amount of non-determinism and randomly failing tests. Always use a CountDownLatch.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+// This does not block.
+BlockingObservable&lt;Long&gt; observable = Observable
+    .interval(1, TimeUnit.SECONDS)
+    .toBlocking();
+
+// This blocks and is called for every emitted item.
+observable.forEach(new Action1&lt;Long&gt;() {
+    @Override
+    public void call(Long counter) {
+        System.out.println(&quot;Got: &quot; + counter);
+    }
+});
+                </code></pre>
+
+                <aside class="notes">
+                    <p>A technique unique to Observables is to convert it into a BlockingObservable to achieve the same effect. In simple terms, it converts a Observable into a Iterable and making it execute on the caller thread, blocking it until one or more values arrive. This technique is used extensively in the documentation to show concepts, while not having to deal with CountDownLatches all the time. It can also be used if you for some reason are not able to use asynchronous computations.</p>
+                    <p>The conversion itself doesn't do any blocking in the first place, only subsequent calls will:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+Observable
+    .interval(1, TimeUnit.SECONDS)
+    .take(5)
+    .toBlocking()
+    .forEach(new Action1&lt;Long&gt;() {
+        @Override
+        public void call(Long counter) {
+            System.out.println(&quot;Got: &quot; + counter);
+        }
+    });
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Since this will run forever, you are free to chain any asynchronous computations before. So you ca build an asynchronous workflow and then block at the very end. This resembles the same code as with the CountDownLatch before:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+int value = Observable
+    .just(1)
+    .toBlocking()
+    .single();
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Exception in thread "main" java.lang.IllegalArgumentException: Sequence contains too many elements
+	at rx.internal.operators.OperatorSingle$1.onNext(OperatorSingle.java:58)
+	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:76)
+	at rx.Subscriber.setProducer(Subscriber.java:148)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	....
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Exception in thread "main" java.util.NoSuchElementException: Sequence contains no elements
+	at rx.internal.operators.OperatorSingle$1.onCompleted(OperatorSingle.java:82)
+	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:79)
+	at rx.Subscriber.setProducer(Subscriber.java:148)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	....
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you know that only a single value is every returned, you can use the single() method:</p>
+                    <p>Be aware though that if more items get emitted, you get an exception:</p>
+                    <p>The same thing happens if no value gets emitted:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+JsonDocument doc = bucket.get("id").toBlocking().singleOrDefault(null);
+if (doc == null) {
+    System.err.println("Document not found!");
+} else {
+    System.out.println(doc);
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>As an alternative, you can use singleOrDefault() so that a fallback value gets returned.</p>
+                    <p>You can use this technique with the Java SDK if you are loading a document and it does not exist:</p>
+                    <p>If you check out the API documentation of the BlockingObservable, you will discover many more possibilities, including iterators or grabbing the first and/or last valuess.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+List&lt;Integer&gt; list = Observable
+    .just(1, 2, 3)
+    .toList()
+    .toBlocking()
+    .single();
+
+// Prints: [1, 2, 3]
+System.out.println(list);
+                </code></pre>
+
+                <aside class="notes">
+                    <p>One last thing that comes in handy with blocking calls: sometimes you want to collect all emitted values into a list. You can combine the blocking calls with the toList() operator to achieve something like this:</p>
+                </aside>
+            </section>
+
+        </section>
+
+
+        <section id="creating-observable">
+
+            <section>
+                <h2>Creating observables</h2>
+
+                <pre class="stretch"><code data-trim>
+Observable.create(new Observable.OnSubscribe&lt;Integer&gt;() {
+    @Override
+    public void call(Subscriber&lt;? super Integer&gt; subscriber) {
+        try {
+            if (!subscriber.isUnsubscribed()) {
+                for (int i = 0; i &lt; 5; i++) {
+                    subscriber.onNext(i);
+                }
+                subscriber.onCompleted();
+            }
+        } catch (Exception ex) {
+            subscriber.onError(ex);
+        }
+    }
+}).subscribe(new Action1&lt;Integer&gt;() {
+    @Override
+    public void call(Integer integer) {
+        System.out.println(&quot;Got: &quot; + integer);
+    }
+});
+                </code></pre>
+
+                <aside class="notes">
+                    <p>There are many ways to create Observables, and you've already seen just() and interval(). There are many more of those convenience methods available on the Observable class, but they all boil down to the create() method. You can simulate the example from before with this:</p>
+                    <p>Every time a Subscriber subscribes, the call() method is executed. You can then call onNext, onComplete and onError as you wish, but keep in mind that both onComplete and onError should only be called once, and afterwards no subsequent onNext is allowed to follow so that the contract is met.</p>
+                    <p>You can see that no blocking call is needed, because the Observable is completely handled on the current thread. In the section on Schedulers, you learn more about that.</p>
+                    <p>This example shows why it is crucial to call subscribe() on the Observable, because only such a call triggers the actual execution of the pipeline. This is a little different with Subjects, which are covered later in this guide. Nevertheless, always call subscribe() on your Observables.</p>
+                    <p>Refer to the RxJava documentation on many more methods that you can use to create Observables. If you are dealing with the Java SDK, in most places this is done for you, but there are situation where it comes in handy.</p>
+                </aside>
+            </section>
+
+        </section>
+
+
+
+        <section id="transforming-observable">
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre class="stretch"><code data-trim>
+Observable
+    .interval(10, TimeUnit.MILLISECONDS)
+    .take(20)
+    .map(new Func1&lt;Long, String&gt;() {
+        @Override
+        public String call(Long input) {
+            if (input % 3 == 0) {
+                return &quot;Fizz&quot;;
+            } else if (input % 5 == 0) {
+                return &quot;Buzz&quot;;
+            }
+            return Long.toString(input);
+        }
+    })
+    .toBlocking()
+    .forEach(new Action1&lt;String&gt;() {
+        @Override
+        public void call(String s) {
+            System.out.println(s);
+        }
+    });
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Observables can transform their values in various ways. One of the most basic ones is map(), which converts the incoming value into a different one. You surely like division, so here is the FizzBuzz game:</p>
+                    <p>The map function is used to convert the input number into a string and do some checks to satisfy the FizzBuzz game.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre><code data-trim>
+bucket
+    .get(&quot;id&quot;)
+    .map(new Func1&lt;JsonDocument, String&gt;() {
+        @Override
+        public String call(JsonDocument document) {
+            return document.content().getString(&quot;firstname&quot;);
+        }
+    }).subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>As a more practical example, consider loading a document from the Java SDK and only extracting the firstname of a user before passing it on:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre><code data-trim>
+// Loads 3 documents in parallel
+Observable
+    .just(&quot;doc1&quot;, &quot;doc2&quot;, &quot;doc3&quot;)
+    .flatMap(new Func1&lt;String, Observable&lt;JsonDocument&gt;&gt;() {
+        @Override
+        public Observable&lt;JsonDocument&gt; call(String id) {
+            return bucket.get(id);
+        }
+    }).subscribe(new Action1&lt;JsonDocument&gt;() {
+        @Override
+        public void call(JsonDocument document) {
+            System.out.println(&quot;Got: &quot; + document);
+        }
+    });
+                </code></pre>
+
+                <aside class="notes">
+                    <p>A variation of map() is called flatMap(), which allows you to do those transformations with asynchronous calles. Taking the example from above, we want to map from String (the document ID) to a JsonDocument (the loaded document). With a normal map(), call you would either need to block on the Observable or at some point deal with a Observable&lt;Observable&lt;JsonDocument&gt;&gt;.</p>
+                    <p>Thankfully, flatMap() flattens the resulting values for us and return them into the original flow:</p>
+                    <p>You can see that flatMap() returns an Observable&lt;T&gt; whereas the normal map just returns &lt;T&gt;. You will use flatMap() a lot when dealing with flows like this, so keep it in mind.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre><code data-trim>
+Observable
+    .just(1, 2, 3, 4, 5)
+    .scan(new Func2&lt;Integer, Integer, Integer&gt;() {
+        @Override
+        public Integer call(Integer sum, Integer value) {
+            return sum + value;
+        }
+    }).subscribe(new Action1&lt;Integer&gt;() {
+        @Override
+        public void call(Integer integer) {
+            System.out.println(&quot;Sum: &quot; + integer);
+        }
+    });
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+Sum: 1
+Sum: 3
+Sum: 6
+Sum: 10
+Sum: 15
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Another helpful transformation is scan(). It applies a function to each value emitted by an Observable, sequentially, and emits each successive value. We can use it to aggregate values like this:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre class="stretch"><code data-trim>
+Observable
+    .just(1, 2, 3, 4, 5)
+    .groupBy(new Func1&lt;Integer, Boolean&gt;() {
+        public Boolean call(Integer integer) {
+            return integer % 2 == 0;
+        }
+    }).subscribe(new Action1&lt;GroupedObservable&lt;Boolean, Integer&gt;&gt;() {
+        public void call(GroupedObservable&lt;Boolean, Integer&gt; grouped) {
+            grouped.toList().subscribe(new Action1&lt;List&lt;Integer&gt;&gt;() {
+                @Override
+                public void call(List&lt;Integer&gt; integers) {
+                    System.out.println(integers + &quot; (Even: &quot; + grouped.getKey() + &quot;)&quot;);
+                }
+            });
+        }
+    });
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+[1, 3, 5] (Even: false)
+[2, 4] (Even: true)
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Finally, groupBy() comes in handy, which emits one Observable by each group, defined by a function. The following example emits two Observables, one for even and one for odd values:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Transforming observables</h2>
+
+                <pre><code data-trim>
+bucket
+    .query(ViewQuery.from("my_design_doc", "my_view"))
+    .flatMap(ViewResult::rows)
+    .flatMap(ViewRow::document)
+    .groupBy(document -> document.content().getString("type"))
+    .subscribe(observable ->
+        observable.count().subscribe(integer ->
+            System.out.println(observable.getKey() + ": " + integer)
+        )
+    );
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+brewery: 1412
+beer: 5891
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Combined with the Java SDK, this technique can be used to separate returned Documents based on their content. The following example uses a view to load all documents from the beer-sample bucket, groups them by type and counts the number of occurrences:</p>
+                    <p>This code queries the view, extracts all rows, loads the full document for each row, groups it by the "type" property in the JSON document and then uses the count() operator to count the number of rows emitted by each observable. This prints something like:</p>
+                </aside>
+            </section>
+        </section>
+
+
+
+        <section id="filtering">
+            <section>
+                <h2>Filtering Observables</h2>
+
+                <pre><code data-trim>
+// This will only let 3 and 4 pass.
+Observable
+    .just(1, 2, 3, 4)
+    .filter(new Func1&lt;Integer, Boolean&gt;() {
+        @Override
+        public Boolean call(Integer integer) {
+            return integer &gt; 2;
+        }
+    }).subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>In addition to transforming Observables, you can also filter them. Filtering doesn't change the emitted values itself, but rather how much and at which point (and if at all) they are emitted.</p>
+                    <p>For example, you can filter based on some criteria</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Filtering Observables</h2>
+
+                <pre><code data-trim>
+// Only 1 and 2 will pass.
+Observable
+    .just(1, 2, 3, 4)
+    .take(2)
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Or take only the first N values emitted and then unsubscribe:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Filtering Observables</h2>
+
+                <pre><code data-trim>
+// Only 1 will pass
+Observable
+    .just(1, 2, 3, 4)
+    .first()
+    .subscribe();
+                </code></pre>
+
+                <pre class="fragment"><code data-trim>
+// Only 4 will pass
+Observable
+    .just(1, 2, 3, 4)
+    .last()
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Or use only the first or last value emitted:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Filtering Observables</h2>
+
+                <pre><code data-trim>
+// 1, 2, 3, 4 will be emitted
+Observable
+    .just(1, 2, 1, 3, 4, 2)
+    .distinct()
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Finally, you can use distinct() to suppress duplicate values:</p>
+                    <p>distinct() also allows you to pass in a function which returns the key to select by. You can use this for example to separate out duplicate JsonDocuments.</p>
+                </aside>
+            </section>
+        </section>
+
+
+
+        <section id="combining">
+            <section>
+                <h2>Combining Observables</h2>
+
+                <pre><code data-trim>
+Observable
+    .merge(evens, odds)
+    .subscribe(new Action1&lt;Integer&gt;() {
+        @Override
+        public void call(Integer integer) {
+            System.out.println(integer);
+        }
+    });
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+2
+4
+6
+8
+10
+1
+3
+5
+7
+9
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Multiple Observables can also be merged to form a combined one. Depending on how you want those to be merged, there are different operators available. Two of the most used ones are merge() and zip() which are covered here.</p>
+                    <p>Merge really just merges all emitted values by the source observables in the order they arrive:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Combining Observables</h2>
+
+                <pre><code data-trim>
+Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
+Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
+
+Observable
+    .zip(evens, odds, (v1, v2) -&gt; v1 + &quot; + &quot; + v2 + &quot; is: &quot; + (v1 + v2))
+    .subscribe(System.out::println);
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+2 + 1 is: 3
+4 + 3 is: 7
+6 + 5 is: 11
+8 + 7 is: 15
+10 + 9 is: 19
+                </code></pre>
+
+                <aside class="notes">
+                    <p>With the zip operator, you can combine two streams in the stricly same order, defined by a function:</p>
+                    <p>This zips each pairs togehter in order and prints:</p>
+                </aside>
+            </section>
+
+        </section>
+
+
+
+        <section id="error-handling">
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <ul>
+                    <li> Return a default value instead</li>
+                    <li class="fragment">Flip over to a backup Observable</li>
+                    <li class="fragment">Retry the Observable (immediately or with backoff)</li>
+                </ul>
+
+                <aside class="notes">
+                    <p>Error handling is a vital component of every real world application and needs to be considered from the start. RxJava provides sophisticated mechanisms to deal with errors that happen inevitably in your Observable flows.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <pre><code data-trim>
+Observable
+    .just(&quot;Apples&quot;, &quot;Bananas&quot;)
+    .doOnNext(s -&gt; {
+        throw new RuntimeException(&quot;I don't like: &quot; + s);
+    })
+    .onErrorReturn(throwable -&gt; {
+        System.err.println(&quot;Oops: &quot; + throwable.getMessage());
+        return &quot;Default&quot;;
+    }).subscribe(System.out::println);
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+// This prints:
+Oops: I don't like: Apples
+Default
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Returning a default value is a good idea if you cannot afford to retry or you just don't care (maybe because the flow is not absolutely crucial to your data flow). The following code throws an exception at the first emitted item, but falls back to a default value:</p>
+                    <p>Note that you can pass in a function which also takes the Exception, so you can return different values for different exception types or use it for logging purposes.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <pre><code data-trim>
+bucket
+    .get(&quot;id&quot;)
+    .onErrorResumeNext(bucket.getFromReplica(&quot;id&quot;, ReplicaMode.ALL))
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>You can also flip to a backup observable which will be called if the first one fails. The Java SDK has a getFromReplica() command which allows you to read stale data from its replicas and treat availability for consistency on reads. You can use this approach to fall back:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <pre><code data-trim>
+bucket
+    .get(&quot;id&quot;)
+    .timeout(500, TimeUnit.MILLISECONDS)
+    .onErrorResumeNext(new Func1&lt;Throwable, Observable&lt;? extends JsonDocument&gt;&gt;() {
+        @Override
+        public Observable&lt;? extends JsonDocument&gt; call(Throwable throwable) {
+            if (throwable instanceof TimeoutException) {
+                return bucket.getFromReplica(&quot;id&quot;, ReplicaMode.ALL);
+            }
+            return Observable.error(throwable);
+        }
+    });
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Normally you want to have more control on which observable should be run next depending on the type of error. The following example will only go to the replica if a TimeoutException happened (if not the error is passed down):</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <pre><code data-trim>
+Observable
+    .just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    .doOnNext(integer -&gt; {
+        if (new Random().nextInt(10) + 1 == 5) {
+            throw new RuntimeException(&quot;Boo!&quot;);
+        }
+    })
+    .retry() // retry(count)
+    .distinct()
+    .subscribe(System.out::println);
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Finally, it is possible to retry the Observable by resubscribing. This can be done as quickly as possible, or with a backoff interval (which is preferred when external resources are involved).</p>
+                    <p>The following program desperately tries to read the numbers from 1 to 10, but a (not so hidden) flaw makes it randomly throw an exception. If that happens, the code retries. Since lots of values might be already emitted, we can use distinct() to filter those out.</p>
+                    <p>If you only want to retry for a max amount, replace the retry() with a retry(count) call.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Error Handling</h2>
+
+                <pre><code data-trim>
+Observable
+    .range(1, 10)
+    .doOnNext(integer -&gt; {
+        if (new Random().nextInt(10) + 1 == 5) {
+            throw new RuntimeException(&quot;Boo!&quot;);
+        }
+    })
+    .retryWhen(attempts -&gt;
+        attempts.zipWith(Observable.range(1, 3), (n, i) -&gt; i)
+        .flatMap(i -&gt; {
+            System.out.println(&quot;delay retry by &quot; + i + &quot; second(s)&quot;);
+            return Observable.timer(i, TimeUnit.SECONDS);
+        }))
+    .distinct()
+    .subscribe(System.out::println);
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+1
+2
+3
+4
+delay retry by 1 second(s)
+delay retry by 2 second(s)
+5
+6
+7
+8
+9
+10
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you want to retry with backoff, you can use a technique like the following:</p>
+                    <p>The attempts get passed into the retryWhen() method and zipped with the number of seconds to wait. The timer method is used to complete once its timer is done. If you run this code a few times to generate an exception (or more), you will see something similar to this:</p>
+                </aside>
+            </section>
+        </section>
+
+
+
+        <section id="schedulers">
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <ul>
+                    <li>Schedulers.computation()</li>
+                    <li class="fragment">Schedulers.immediate()</li>
+                    <li class="fragment">Schedulers.io()</li>
+                    <li class="fragment">Schedulers.newThread()</li>
+                    <li class="fragment">Schedulers.trampoline()</li>
+                    <li class="fragment">Schedulers.test()</li>
+                    <li class="fragment">AndroidSchedulers.mainThread()</li>
+                    <li class="fragment">HandlerScheduler.from(handler)</li>
+                </ul>
+
+                <aside class="notes">
+                    <p>Schedulers in RxJava are used to manage and control concurrency. Some operators implicitly use one and/or allow you to pass in a custom one.</p>
+                    <p>RxJava ships with a bunch of preconfigured Schedulers by default, which are all accessible through the Schedulers class:</p>
+                    <p>As a rule of thumb, the computation scheduler should always be used for in-memory processing, while the IO scheduler should only be used for blocking-style IO operations (so do not use it together with the Java SDK since it is asynchronous anyway!).</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <ul>
+                    <li>Implicitly by using an operator that makes use of one</li>
+                    <li class="fragment">Explicitly by passing the Scheduler to such an operator</li>
+                    <li class="fragment">By using subscribeOn(Scheduler)</li>
+                    <li class="fragment">By using observeOn(Scheduler)</li>
+                </ul>
+
+                <aside class="notes">
+                    <p>You can instruct an Observable to be executed on such a scheduler in four different ways:</p>
+                    <p>Operators like buffer, replay, skip, delay, parallel and so forth use a Scheduler by default if not instructed otherwise. A list of default schedulers can be found here: https://github.com/ReactiveX/RxJava/wiki/Scheduler#default-schedulers-for-rxjava-observable-operators</p>
+                    <p>As a rule of thumb, all of those operators allow you to pass in a custom Scheduler if needed, but most of the time sticking with the defaults is a good idea.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <pre><code data-trim>
+Observable
+    .range(1, 5)
+    .map(integer -&gt; {
+        System.out.println(&quot;Map: (&quot; + Thread.currentThread().getName() + &quot;)&quot;);
+        return integer + 2;
+    })
+    .subscribe(integer -&gt;
+        System.out.println(&quot;Got: &quot; + integer + &quot; (&quot; + Thread.currentThread().getName() + &quot;)&quot;)
+    );
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Map: (main)
+Got: 3 (main)
+Map: (main)
+Got: 4 (main)
+Map: (main)
+Got: 5 (main)
+Map: (main)
+Got: 6 (main)
+Map: (main)
+Got: 7 (main)
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you want the whole subscribe chain to be executed on a specific scheduler, you use the subscribeOn() operator. Without a Scheduler set, the following code executes on the main thread:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <pre><code data-trim>
+Observable
+    .range(1, 5)
+    .map(integer -&gt; {
+        System.out.println(&quot;Map: (&quot; + Thread.currentThread().getName() + &quot;)&quot;);
+        return integer + 2;
+    })
+    .subscribeOn(Schedulers.computation())
+    .subscribe(integer -&gt;
+            System.out.println(&quot;Got: &quot; + integer + &quot; (&quot; + Thread.currentThread().getName() + &quot;)&quot;)
+    );
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Map: (RxComputationThreadPool-6)
+Got: 3 (RxComputationThreadPool-6)
+Map: (RxComputationThreadPool-6)
+Got: 4 (RxComputationThreadPool-6)
+Map: (RxComputationThreadPool-6)
+Got: 5 (RxComputationThreadPool-6)
+Map: (RxComputationThreadPool-6)
+Got: 6 (RxComputationThreadPool-6)
+Map: (RxComputationThreadPool-6)
+Got: 7 (RxComputationThreadPool-6)
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you add subscribeOn() somewhere in the flow (it doesn't matter where):</p>
+                    <p>You can see it is executed on the same thread, but on the computation thread pool:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <pre><code data-trim>
+Observable
+    .range(1, 5)
+    .map(integer -&gt; {
+        System.out.println(&quot;Map: (&quot; + Thread.currentThread().getName() + &quot;)&quot;);
+        return integer + 2;
+    })
+    .observeOn(Schedulers.computation())
+    .subscribe(integer -&gt;
+            System.out.println(&quot;Got: &quot; + integer + &quot; (&quot; + Thread.currentThread().getName() + &quot;)&quot;)
+    );
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Map: (main)
+Map: (main)
+Map: (main)
+Got: 3 (RxComputationThreadPool-6)
+Got: 4 (RxComputationThreadPool-6)
+Got: 5 (RxComputationThreadPool-6)
+Map: (main)
+Map: (main)
+Got: 6 (RxComputationThreadPool-6)
+Got: 7 (RxComputationThreadPool-6)
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you need tighter control which parts are executed on what pool, use observeOn(). Here, the order matters:</p>
+                    <p>Everything before the observeOn call is executed in main, everything below in the Scheduler:</p>
+                    <p>There is also a way to use Schedulers directly to schedule operations, please refer to the documentation here: https://github.com/ReactiveX/RxJava/wiki/Scheduler#using-schedulers</p>
+                </aside>
+            </section>
+        </section>
+
+
+        <section id="unsubscribing">
+            <section>
+                <h2>Unsubscribing in RxJava</h2>
+
+                <pre><code data-trim>
+Observable
+    .interval(10, TimeUnit.MILLISECONDS)
+    .map(x -> x*x)
+    .take(10)
+    .subscribe(System.out::println)
+
+// 0 1 4 9 16 25 36 49 64 81
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Unsubscribing in RxJava</h2>
+
+                <img data-src="images/observable-chain-diagram.jpg"
+                     alt="Observable unsubscribe chain diagram">
+            </section>
+        </section>
+
+
+
+        <section id="optional">
+        <section id="m-word">
+            <h2>The M word</h2>
+
+            <img data-src="https://wiki.haskell.org/wikiupload/2/23/Monad-tutorials-chart.png"
+                 alt="Amount of known monad tutorials">
+
+            <a href="https://wiki.haskell.org/Monad_tutorials_timeline">https://wiki.haskell.org/Monad_tutorials_timeline</a>
+        </section>
+        <section>
+            <h2>Java 8</h2>
+
+            <p>java.util.Optional</p>
+        </section>
+
+        <section id="optional-npe">
+            <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175761.gif"
+                 alt="A nested structure for representing a Computer">
+
+            <pre><code data-trim>
+String version = computer.getSoundcard().getUSB().getVersion();
+            </code></pre>
+        </section>
+        <section id="optional-null-check">
+            <pre><code data-trim>
+String version = "UNKNOWN";
+if(computer != null){
+  Soundcard soundcard = computer.getSoundcard();
+  if(soundcard != null){
+    USB usb = soundcard.getUSB();
+    if(usb != null){
+      version = usb.getVersion();
     }
   }
 }
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+            </code></pre>
+        </section>
 
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
 
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
+        <section id="optional-structure">
+            <pre><code data-trim>
+public class Computer {
+  private Optional&lt;Soundcard&gt; soundcard;
+  public Optional&lt;Soundcard&gt; getSoundcard() { ... }
+  ...
+}
 
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							<tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							<tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							<tr>
-						</tbody>
-					</table>
-				</section>
+public class Soundcard {
+  private Optional&lt;USB&gt; usb;
+  public Optional&lt;USB&gt; getUSB() { ... }
+}
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
+public class USB{
+  public String getVersion(){ ... }
+}
+            </code></pre>
+        </section>
 
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
 
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+        <section id="optional-nested">
+            <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175763.gif"
+                 alt=" A two-level Optional">
+            <pre><code  data-trim>
+Optional&lt;Optional&lt;Soundcard&gt;&gt;
+            </code></pre>
+        </section>
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
 
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
+        <section>
+            <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175764.gif"
+                 alt="Using map versus flatMap with Optional">
+        </section>
 
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
 
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
+        <section id="optional-flatmap">
+            <pre><code data-trim>
+String name = computer.flatMap(Computer::getSoundcard)
+                      .flatMap(Soundcard::getUSB)
+                      .map(USB::getVersion)
+                      .orElse("UNKNOWN");
+            </code></pre>
+        </section>
+
+
+        <section id="optional-observable">
+            <pre><code data-trim>
+public class Computer {
+  public Observable&lt;Soundcard&gt; getSoundcard() { ... }
+  ...
+}
+
+public class Soundcard {
+  public Observable&lt;USB&gt; getUSB() { ... }
+}
+            </code></pre>
+        </section>
+
+
+        <section id="optional-catpic">
+            <img data-src="https://pbs.twimg.com/media/BjbR-1aIIAAHStC.png:large"
+                 alt="cat in a box, in a box.">
+
+            <pre><code data-trim>
+Observable&lt;Observable&lt;USB&gt;&gt;&gt; getUSB() { ... }
+            </code></pre>
+        </section>
+
+        <section id="optional-flatmap-observable">
+            <pre><code data-trim>
+Observable&lt;String&gt; name = computer.flatMap(Computer::getSoundcard)
+                                  .flatMap(Soundcard::getUSB)
+                                  .map(USB::getVersion)
+                                  .defaultIfEmpty(&quot;UNKNOWN&quot;);
+            </code></pre>
+        </section>
+        </section>
+
+        <section id="results">
+        <section>
+            <h2>Seems to work? Ship it!</h2>
+            <ul>
+                <li>Hot vs Cold Observable</li>
+                <li class="fragment">Back pressure</li>
+                <li class="fragment">Architecture design (bus, cache, lifecycle)</li>
+                <li class="fragment">Test scheduler / Test subscriber</li>
+                <li class="fragment">Lamda support</li>
+            </ul>
+        </section>
+        <section id="resume-pro">
+            <h2>Pro</h2>
+            <ul>
+                <li>RxJava is new AsyncTask</li>
+                <li class="fragment">Support for stream are coming from JDK8 and JDK9. With RxJava you are living in the Future.</li>
+            </ul>
+        </section>
+
+        <section id="resume-cons">
+            <h2>Cons</h2>
+            <ul>
+                <li>memory allocation</li>
+                <li class="fragment">step debug vs logging</li>
+                <li class="fragment">learning curve</li>
+            </ul>
+        </section>
+
+            <section>
+                <h2>Learning curve</h2>
+                <ul>
+                    <li>Initial step</li>
+                    <li class="fragment">Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.</li>
+                    <li class="fragment">Layers of rock star programmers</li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Links</h2>
+
+                <ul>
+                    <li>Libs - <a href="https://gist.github.com/plastiv/985b2f5eb781e975420a">gist.github.com/plastiv/985b2f5eb781e975420a</a></li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <h1>Reveal.js</h1>
+
+            <h3>The HTML Presentation Framework</h3>
+
+            <p>
+                <small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a>
+                </small>
+            </p>
+        </section>
+
+        <section>
+            <h2>Hello There</h2>
+
+            <p>
+                reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will
+                show you examples of what it can do.
+            </p>
+        </section>
+
+        <!-- Example of nested vertical slides -->
+        <section>
+            <section>
+                <h2>Vertical Slides</h2>
+
+                <p>Slides can be nested inside of each other.</p>
+
+                <p>Use the <em>Space</em> key to navigate through all slides.</p>
+                <br>
+                <a href="#" class="navigate-down">
+                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
+                         alt="Down arrow">
+                </a>
+            </section>
+            <section>
+                <h2>Basement Level 1</h2>
+
+                <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+            </section>
+            <section>
+                <h2>Basement Level 2</h2>
+
+                <p>That's it, time to go back up.</p>
+                <br>
+                <a href="#/2">
+                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
+                         alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
+                </a>
+            </section>
+        </section>
+
+        <section>
+            <h2>Slides</h2>
+
+            <p>
+                Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a
+                    href="http://slides.com" target="_blank">http://slides.com</a>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Point of View</h2>
+
+            <p>
+                Press <strong>ESC</strong> to enter the slide overview.
+            </p>
+
+            <p>
+                Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>.
+                Alt + click anywhere to zoom back out.
+            </p>
+        </section>
+
+        <section>
+            <h2>Touch Optimized</h2>
+
+            <p>
+                Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your
+                slides.
+            </p>
+        </section>
+
+        <section data-markdown>
+            <script type="text/template">
+                ## Markdown support
+
+                Write content using inline or external Markdown.
+                Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+                ```
+                <section data-markdown>
+                    ## Markdown support
+
+                    Write content using inline or external Markdown.
+                    Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+                </section>
+                ```
+            </script>
+        </section>
+
+        <section>
+            <section id="fragments">
+                <h2>Fragments</h2>
+
+                <p>Hit the next arrow...</p>
+
+                <p class="fragment">... to step through ...</p>
+
+                <p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span>
+                </p>
+
+                <aside class="notes">
+                    This slide has fragments which are also stepped through in the notes window.
+                </aside>
+            </section>
+            <section>
+                <h2>Fragment Styles</h2>
+
+                <p>There's different types of fragments, like:</p>
+
+                <p class="fragment grow">grow</p>
+
+                <p class="fragment shrink">shrink</p>
+
+                <p class="fragment fade-out">fade-out</p>
+
+                <p class="fragment current-visible">current-visible</p>
+
+                <p class="fragment highlight-red">highlight-red</p>
+
+                <p class="fragment highlight-blue">highlight-blue</p>
+            </section>
+        </section>
+
+        <section id="transitions">
+            <h2>Transition Styles</h2>
+
+            <p>
+                You can select from different transitions, like: <br>
+                <a href="?transition=none#/transitions">None</a> -
+                <a href="?transition=fade#/transitions">Fade</a> -
+                <a href="?transition=slide#/transitions">Slide</a> -
+                <a href="?transition=convex#/transitions">Convex</a> -
+                <a href="?transition=concave#/transitions">Concave</a> -
+                <a href="?transition=zoom#/transitions">Zoom</a>
+            </p>
+        </section>
+
+        <section id="themes">
+            <h2>Themes</h2>
+
+            <p>
+                reveal.js comes with a few themes built in: <br>
+                <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black
+                    (default)</a> -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a>
+                <br>
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a>
+                -
+                <a href="#"
+                   onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+            </p>
+        </section>
+
+        <section>
+            <section data-background="#dddddd">
+                <h2>Slide Backgrounds</h2>
+
+                <p>
+                    Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color
+                    formats are supported.
+                </p>
+                <a href="#" class="navigate-down">
+                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png"
+                         alt="Down arrow">
+                </a>
+            </section>
+            <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
+                <h2>Image Backgrounds</h2>
+                <pre><code>&lt;section data-background="image.png"&gt;</code></pre>
+            </section>
+            <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png"
+                     data-background-repeat="repeat" data-background-size="100px">
+                <h2>Tiled Backgrounds</h2>
+                <pre><code style="word-wrap: break-word;">&lt;section data-background="image.png"
+                    data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+            </section>
+            <section
+                    data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm"
+                    data-background-color="#000000">
+                <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+                    <h2>Video Backgrounds</h2>
+                    <pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+                </div>
+            </section>
+            <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+                <h2>... and GIFs!</h2>
+            </section>
+        </section>
+
+        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+            <h2>Background Transitions</h2>
+
+            <p>
+                Different background transitions are available via the backgroundTransition option. This one's called
+                "zoom".
+            </p>
+            <pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+        </section>
+
+        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+            <h2>Background Transitions</h2>
+
+            <p>
+                You can override background transitions per-slide.
+            </p>
+            <pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+        </section>
+
+        <section>
+            <h2>Pretty Code</h2>
+					<pre><code data-trim contenteditable>
+                        public CarSelectorConnectorImpl(Context context) {
+                        this.context = context;
+                        objectMapper = new ObjectMapper();
+                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        }
+                    </code></pre>
+            <p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Marvelous List</h2>
+            <ul>
+                <li>No order here</li>
+                <li>Or here</li>
+                <li>Or here</li>
+                <li>Or here</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Fantastic Ordered List</h2>
+            <ol>
+                <li>One is smaller than...</li>
+                <li>Two is smaller than...</li>
+                <li>Three!</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Tabular Tables</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Value</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Apples</td>
+                    <td>$1</td>
+                    <td>7</td>
+                <tr>
+                <tr>
+                    <td>Lemonade</td>
+                    <td>$2</td>
+                    <td>18</td>
+                <tr>
+                <tr>
+                    <td>Bread</td>
+                    <td>$3</td>
+                    <td>2</td>
+                <tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Clever Quotes</h2>
+
+            <p>
+                These guys come in two forms, inline: <q
+                    cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
+            </p>
+            <blockquote
+                    cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of
+                typewriters would
+                reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>Intergalactic Interconnections</h2>
+
+            <p>
+                You can link between slides internally,
+                <a href="#/2/3">like this</a>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Speaker View</h2>
+
+            <p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a
+                timer, preview of the upcoming slide as well as your speaker notes.</p>
+
+            <p>Press the <em>S</em> key to try it out.</p>
+
+            <aside class="notes">
+                Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open
+                the speaker notes window (hit 's' on your keyboard).
+            </aside>
+        </section>
+
+        <section>
+            <h2>Export to PDF</h2>
+
+            <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>,
+                here's an example:</p>
+            <iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0"
+                    marginwidth="0" marginheight="0" scrolling="no"
+                    style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
+        </section>
+
+        <section>
+            <h2>Global State</h2>
+
+            <p>
+                Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+                will be added as a class to the document element when the slide is open. This lets you
+                apply broader style changes, like switching the page background.
+            </p>
+        </section>
+
+        <section data-state="customevent">
+            <h2>State Events</h2>
+
+            <p>
+                Additionally custom events can be triggered on a per slide basis by binding to the
+                <code>data-state</code> name.
+            </p>
 					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
+                        Reveal.addEventListener( 'customevent', function() {
+                        console.log( '"customevent" has fired' );
+                        } );
+                    </code></pre>
+        </section>
 
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
+        <section>
+            <h2>Take a Moment</h2>
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
+            <p>
+                Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want
+                to take distracting slides off the screen.
+            </p>
+        </section>
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
+        <section>
+            <h2>Much more</h2>
+            <ul>
+                <li>Right-to-left support</li>
+                <li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
+                <li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
+                <li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
+                <li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+            </ul>
+        </section>
 
-			</div>
+        <section style="text-align: left;">
+            <h1>THE END</h1>
 
-		</div>
+            <p>
+                - <a href="http://slides.com">Try the online editor</a> <br>
+                - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+            </p>
+        </section>
 
-		<script src="revealjs/lib/js/head.min.js"></script>
-		<script src="revealjs/js/reveal.js"></script>
+    </div>
 
-		<script>
+</div>
 
+<script src="revealjs/lib/js/head.min.js"></script>
+<script src="revealjs/js/reveal.js"></script>
+
+<script>
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
@@ -404,8 +1852,7 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'revealjs/plugin/notes/notes.js', async: true }
 				]
 			});
+</script>
 
-		</script>
-
-	</body>
+</body>
 </html>
