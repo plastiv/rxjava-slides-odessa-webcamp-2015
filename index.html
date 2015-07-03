@@ -596,11 +596,107 @@ Observable.create(new Observable.OnSubscribe&lt;Integer&gt;() {
                 </aside>
             </section>
 
+
+            <section>
+                <h2>Creating observables</h2>
+
+                <pre class="stretch"><code data-trim>
+public void call(final Subscriber&lt;? super AdapterViewItemClickEvent&gt; subscriber) {
+
+  AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+    public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+      if (!subscriber.isUnsubscribed()) {
+        subscriber.onNext(AdapterViewItemClickEvent.create(parent, view, position, id));
+      }
+    }
+  };
+
+  subscriber.add(new MainThreadSubscription() {
+    protected void onUnsubscribe() {
+      view.setOnItemClickListener(null);
+    }
+  });
+
+  view.setOnItemClickListener(listener);
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h2>Creating observables</h2>
+
+                <pre class="stretch"><code data-trim>
+static final class CallOnSubscribe&lt;T&gt; implements Observable.OnSubscribe&lt;Response&lt;T&gt;&gt; {
+  private final Call&lt;T&gt; originalCall;
+
+  private CallOnSubscribe(Call&lt;T&gt; originalCall) {
+    this.originalCall = originalCall;
+  }
+
+  @Override public void call(final Subscriber&lt;? super Response&lt;T&gt;&gt; subscriber) {
+    // Since Call is a one-shot type, clone it for each new subscriber.
+    final Call&lt;T&gt; call = originalCall.clone();
+
+    // Attempt to cancel the call if it is still in-flight on unsubscription.
+    subscriber.add(Subscriptions.create(new Action0() {
+      @Override public void call() {
+        call.cancel();
+      }
+    }));
+                </code></pre>
+            </section>
+
+
+                <section>
+                    <h2>Creating observables</h2>
+
+                    <pre class="stretch"><code data-trim>
+    call.enqueue(new Callback&lt;T&gt;() {
+      @Override public void success(Response&lt;T&gt; response) {
+        if (subscriber.isUnsubscribed()) {
+          return;
+        }
+        try {
+          subscriber.onNext(response);
+        } catch (Throwable t) {
+          subscriber.onError(t);
+          return;
+        }
+        subscriber.onCompleted();
+      }
+
+      @Override public void failure(Throwable t) {
+        if (subscriber.isUnsubscribed()) {
+          return;
+        }
+        subscriber.onError(t);
+      }
+    });
+  }
+}
+                </code></pre>
+                    </section>
+
         </section>
 
 
 
         <section id="unsubscribing">
+
+            <section>
+                <h2>Unsubscribing in RxJava</h2>
+
+                <pre><code data-trim>
+Observable&lt;String&gt; o = retrofit.getObservable(..);
+Subscription s = o.subscribe(...);
+
+// later when not needed
+s.unsubscribe();
+                </code></pre>
+            </section>
+
+
             <section>
                 <h2>Unsubscribing in RxJava</h2>
 
@@ -1283,18 +1379,20 @@ delay retry by 2 second(s)
 
 
         <section id="schedulers">
+
             <section>
                 <h2>Schedulers & Threads</h2>
 
                 <ul>
-                    <li>Schedulers.computation()</li>
-                    <li class="fragment">Schedulers.immediate()</li>
-                    <li class="fragment">Schedulers.io()</li>
                     <li class="fragment">Schedulers.newThread()</li>
+                    <li class="fragment">Schedulers.from(executor)</li>
+                    <li class="fragment">Schedulers.io()</li>
+                    <li class="fragment">Schedulers.immediate()</li>
+                    <li class="fragment">Schedulers.computation()</li>
                     <li class="fragment">Schedulers.trampoline()</li>
                     <li class="fragment">Schedulers.test()</li>
-                    <li class="fragment">AndroidSchedulers.mainThread()</li>
                     <li class="fragment">HandlerScheduler.from(handler)</li>
+                    <li class="fragment">AndroidSchedulers.mainThread()</li>
                 </ul>
 
                 <aside class="notes">
@@ -1353,6 +1451,14 @@ Got: 7 (main)
                 <aside class="notes">
                     <p>If you want the whole subscribe chain to be executed on a specific scheduler, you use the subscribeOn() operator. Without a Scheduler set, the following code executes on the main thread:</p>
                 </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <img data-src="images/schedulers-chain.jpg"
+                     alt="Schedulers chain">
             </section>
 
 
@@ -1431,14 +1537,12 @@ Got: 7 (RxComputationThreadPool-6)
                 <h2>Schedulers & Threads</h2>
 
                 <pre><code data-trim>
-TestSubscriber&lt;Integer&gt; ts = new TestSubscriber&lt;Integer&gt;();
-Observable.range(0, 5)
+Observable.range(1, 5)
           .doOnNext(logThreadName())
           .subscribeOn(Schedulers.computation())
           .subscribeOn(Schedulers.newThread())
           .subscribeOn(Schedulers.io())
-          .subscribe(ts);
-ts.awaitTerminalEvent();
+          .subscribe();
                 </code></pre>
                 <pre class="fragment"><code data-trim>
 RxComputationThreadPool-1
@@ -1454,14 +1558,12 @@ RxComputationThreadPool-1
                 <h2>Schedulers & Threads</h2>
 
                 <pre><code data-trim>
-TestSubscriber&lt;Integer&gt; ts = new TestSubscriber&lt;Integer&gt;();
-Observable.range(0, 5)
+Observable.range(1, 5)
           .observeOn(Schedulers.computation())
           .observeOn(Schedulers.newThread())
           .observeOn(Schedulers.io())
           .doOnNext(logThreadName())
-          .subscribe(ts);
-ts.awaitTerminalEvent();
+          .subscribe();
                 </code></pre>
                 <pre class="fragment"><code data-trim>
 RxCachedThreadScheduler-1
@@ -1477,24 +1579,22 @@ RxCachedThreadScheduler-1
                 <h2>Schedulers & Threads</h2>
 
                 <pre><code data-trim>
-TestSubscriber&lt;Integer&gt; ts = new TestSubscriber&lt;Integer&gt;();
-Observable.range(0, 5)
+Observable.range(1, 5)
           .observeOn(Schedulers.computation())
           .doOnNext(logThreadName())
           .observeOn(Schedulers.newThread())
           .doOnNext(logThreadName())
           .observeOn(Schedulers.io())
           .doOnNext(logThreadName())
-          .subscribe(ts);
-ts.awaitTerminalEvent();
+          .subscribe();
                 </code></pre>
                 <pre class="fragment"><code data-trim>
 RxComputationThreadPool-3
-RxCachedThreadScheduler-1
 RxNewThreadScheduler-1
+RxCachedThreadScheduler-1
 RxComputationThreadPool-3
-RxCachedThreadScheduler-1
 RxNewThreadScheduler-1
+RxCachedThreadScheduler-1
                 </code></pre>
             </section>
         </section>
@@ -1503,8 +1603,38 @@ RxNewThreadScheduler-1
         <section id="android-schedulers">
 
             <section>
-                <section>
-                    <h2>Android Schedulers</h2>
+                <h2>Android Schedulers</h2>
+
+                <ul>
+                    <li class="fragment">HandlerScheduler.from(handler)</li>
+                    <li class="fragment">AndroidSchedulers.mainThread()</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Android Schedulers</h2>
+
+                <pre><code data-trim>
+retrofitService.someNetworkCall()
+  .subscribeOn(Schedulers.io())
+  .observeOn(AndroidSchedulers.mainThread())
+  .subscribe()
+                </code></pre>
+
+                <pre class="fragment"><code data-trim>
+public class MyActivity extends Activity {
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    cacheObservable
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe()
+  }
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Android Schedulers</h2>
 
                 <pre><code data-trim>
 public class MyActivity extends Activity {
@@ -1523,7 +1653,6 @@ public class MyActivity extends Activity {
   }
 }
                 </code></pre>
-                </section>
             </section>
 
         </section>
