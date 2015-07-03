@@ -57,12 +57,11 @@
         <section id="motivation">
 
             <section>
-                <p><q
-                        cite="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">
-                    &ldquo;anything that can be done asynchronously should be;
+                <p><q cite="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">
+                    &ldquo;anything that can be done asynchronously should be;<br>
                     the UI Thread should be used just for core UI Thread operations&rdquo;</q>
                 </p>
-                <p><a href="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">https://medium.com/google-developers/developing-for-android-iii-2efc140167fd</a></p>
+                <p><a href="https://medium.com/google-developers/developing-for-android-iii-2efc140167fd">medium.com/google-developers/developing-for-android-iii</a></p>
             </section>
 
 
@@ -70,8 +69,8 @@
                 <h2>Motivation</h2>
 
                 <ul>
-                    <li>Modern applications are inherently concurrent.</li>
-                    <li class="fragment">Writing concurrent programs that are correct is difficult.</li>
+                    <li class="fragment">Modern applications are inherently concurrent</li>
+                    <li class="fragment">Writing concurrent programs that are correct is difficult</li>
                 </ul>
 
                 <aside class="notes">
@@ -82,120 +81,57 @@
                 </aside>
             </section>
 
-        </section>
+
+            <section>
+                <h2>Existing solutions</h2>
+
+                <ul>
+                    <li class="fragment">java.util.concurrent</li>
+                    <li class="fragment">AsynkTask, Loader, Service, SyncAdapter, JobScheduler</li>
+                    <li class="fragment">Virgil Dobjanschi - Android REST client applications</li>
+                    <li class="fragment">Volley, Robospice, Priority Job Queue, etc</li>
+                    <li class="fragment">RxJava</li>
+                </ul>
+            </section>
 
 
-
-        <section id="history">
-            <h2>Some time ago</h2>
-
-            <ul>
-                <li>(June 2009) - First video about Rx.NET on Microsoft's Channel 9 dev portal</li>
-                <li class="fragment">(mid 2011)  - Rx.NET official release</li>
-                <li class="fragment">(Feb 2013)  - Netflix goes public w/ a independent Rx port: RxJava</li>
-                <li class="fragment">(Aug 2013)  - Reactive Programming on Android With RxJava article</li>
-                <li class="fragment">(Nov 2014)  - RxJava release</li>
-            </ul>
-        </section>
+            <section>
+                <img data-src="images/andre-alians.png" alt="embrace observable"/>
+            </section>
 
 
+            <section>
+                <h2>Magnitude of interest</h2>
 
-        <section id="java8">
-        <section>
-            <h2>Java 8, Lambdas and Anonymous Classes</h2>
+                <ul>
+                    <li class="fragment">(June 2009) - First video about Rx.NET on Microsoft's Channel 9 dev portal</li>
+                    <li class="fragment">(mid 2011)  - Rx.NET official release</li>
+                    <li class="fragment">(Feb 2013)  - Netflix goes public w/ a independent Rx port: RxJava</li>
+                    <li class="fragment">(Aug 2013)  - Reactive Programming on Android With RxJava article</li>
+                    <li class="fragment">(Nov 2014)  - RxJava release</li>
+                </ul>
+            </section>
 
-            <pre><code data-trim>
-// Loads 3 documents in parallel
-Observable
-    .just(&quot;doc1&quot;, &quot;doc2&quot;, &quot;doc3&quot;)
-    .flatMap(new Func1&lt;String, Observable&lt;JsonDocument&gt;&gt;() {
-        @Override
-        public Observable&lt;JsonDocument&gt; call(String id) {
-            return bucket.get(id);
-        }
-    }).subscribe(new Action1&lt;JsonDocument&gt;() {
-        @Override
-        public void call(JsonDocument document) {
-            System.out.println(&quot;Got: &quot; + document);
-        }
-    });
-            </code></pre>
-
-            <aside class="notes">
-                <p>Before jumping into the details, one thing warrants clarification: RxJava, and therefore the Java SDK fully supports Java 8. This brings some great improvements, most prominently support for lambdas and method references.</p>
-                <p>Because the Java SDK has support for Java 6 and 7, most of the examples shown in the documentation use anonymous classes instead of lambdas. You are free and even encouraged to use them if you are able to, but Java 8 on production servers is still a few months/years away at most companies.</p>
-                <p>That said, we expect the SDK to be around for a long time and want to pave the way for the future right now. To whet your appetite, compare Java 6 code to Java 8 (same code):</p>
-                <p>Also, RxJava has support for other languages like Scala, Groovy or Clojure. If you are using one of those languages, please refer to the RxJava documentation on how to use the adapters.</p>
-            </aside>
-        </section>
-
-
-        <section>
-            <h2>Java 8, Lambdas and Anonymous Classes</h2>
-
-            <pre><code data-trim>
-// Loads 3 documents in parallel
-Observable
-    .just("doc1", "doc2", "doc3")
-    .flatMap(bucket::get)
-    .subscribe(document -> System.out.println("Got: " + document));
-            </code></pre>
-        </section>
         </section>
 
 
 
         <section id="understanding">
-        <section>
-            <h2>Understanding Observables</h2>
 
-            <img data-src="images/mental-shift.png"
-                 alt="Understanding Observables: mental shift">
-        </section>
+            <section>
+                <h2>Understanding Observables</h2>
+
+                <img data-src="images/mental-shift.png"
+                     alt="Understanding Observables: mental shift">
+            </section>
 
 
-        <section>
-            <h2>Understanding Observables</h2>
+            <section>
+                <h2>Understanding Observables</h2>
 
-            <table class="reveal">
-                <tr>
-                    <td>Event</td>
-                    <td>Iterable (pull)</td>
-                    <td>Observable (push)</td>
-                </tr>
-                <tr>
-                    <td>Retrieve data</td>
-                    <td>T next()</td>
-                    <td>onNext(T)</td>
-                </tr>
-                <tr class="fragment">
-                    <td>Discover error</td>
-                    <td>throws Exception</td>
-                    <td>onError(Exception)</td>
-                </tr>
-                <tr class="fragment">
-                    <td>Complete</td>
-                    <td>!hasNext()</td>
-                    <td>onCompleted</td>
-                </tr>
-                <tr class="fragment">
-                    <td>Stop</td>
-                    <td>break;</td>
-                    <td>unsubscribe()</td>
-                </tr>
-                <tr class="fragment">
-                    <td>Backpressure</td>
-                    <td>next()...next()</td>
-                    <td>request(n)</td>
-                </tr>
-            </table>
-
-            <aside class="notes">
-                <p>You can think of a Observable as the push-based, asynchronous cousin (&quot;dual&quot;) of the pull-based, synchronous Iterable. The contract of a Observable is that zero to N data events can happen, followed by a complete event. In addition, an error event can happen at any time, also completing the Observable.</p>
-                <p>A Observable can also be converted into a BlockingObservable, which then, unsurprisingly, behaves very much like a Iterable.</p>
-                <p>The key element to take away is that a Observable&lt;T&gt; can emit 0 to N events, which is very different of a Future&lt;T&gt;, which only contains one value. Once you start to work on streams instead of single values, you will very much appreciate this fact.</p>
-            </aside>
-        </section>
+                <img data-src="images/sync-vs-observable.png"
+                     alt="Sync vs observable">
+            </section>
 
 
             <section>
@@ -212,31 +148,80 @@ public interface FooService {
                     <p>It could be that when load() is called, the String value is fetched right out of a Map in memory (or even a hard-coded value). In this case, there is no need to move the execution away from the caller thread, because the value will be returned instantaneously. If at a later point the implementation needs to be changed so that the String is loaded through a web service (which introduces latency and other semantics), the API doesn't need to be changed, because the underlying implementation is free to move it to a Scheduler.</p>
                 </aside>
             </section>
+
+
+            <section>
+                <h2>Understanding Observables</h2>
+
+                <table class="reveal">
+                    <tr>
+                        <td>Event</td>
+                        <td>Iterable (pull)</td>
+                        <td>Observable (push)</td>
+                    </tr>
+                    <tr>
+                        <td>Retrieve data</td>
+                        <td>T next()</td>
+                        <td>onNext(T)</td>
+                    </tr>
+                    <tr class="fragment">
+                        <td>Complete</td>
+                        <td>!hasNext()</td>
+                        <td>onCompleted</td>
+                    </tr>
+                    <tr class="fragment">
+                        <td>Discover error</td>
+                        <td>throws Exception</td>
+                        <td>onError(Exception)</td>
+                    </tr>
+                    <tr class="fragment">
+                        <td>Stop</td>
+                        <td>break;</td>
+                        <td>unsubscribe()</td>
+                    </tr>
+                    <tr class="fragment">
+                        <td>Backpressure</td>
+                        <td>next()...next()</td>
+                        <td>request(n)</td>
+                    </tr>
+                </table>
+
+                <aside class="notes">
+                    <p>You can think of a Observable as the push-based, asynchronous cousin (&quot;dual&quot;) of the pull-based, synchronous Iterable. The contract of a Observable is that zero to N data events can happen, followed by a complete event. In addition, an error event can happen at any time, also completing the Observable.</p>
+                    <p>A Observable can also be converted into a BlockingObservable, which then, unsurprisingly, behaves very much like a Iterable.</p>
+                    <p>The key element to take away is that a Observable&lt;T&gt; can emit 0 to N events, which is very different of a Future&lt;T&gt;, which only contains one value. Once you start to work on streams instead of single values, you will very much appreciate this fact.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <img data-src="images/observer vs observable.png"
+                     alt="Sync vs observable">
+            </section>
+
         </section>
 
 
 
         <section id="consuming">
-        <section>
-            <h2>Consuming Observables</h2>
 
-            <div style="position:relative;">
+            <section>
+                <h2>Consuming Observables</h2>
 
-            <pre style="stretch"><code data-trim>
+                <div style="position:relative;">
+
+                <pre style="stretch"><code data-trim>
 Observable
     .just(1, 2, 3)
     .subscribe(new Subscriber&lt;Integer&gt;() {
-        @Override
         public void onCompleted() {
             System.out.println(&quot;Completed Observable.&quot;);
         }
 
-        @Override
         public void onError(Throwable throwable) {
             System.err.println(&quot;Whoops: &quot; + throwable.getMessage());
         }
 
-        @Override
         public void onNext(Integer integer) {
             System.out.println(&quot;Got: &quot; + integer);
         }
@@ -302,44 +287,6 @@ Whoops: I don't like 2
         <section>
             <h2>Consuming Observables</h2>
 
-            <pre class="stretch"><code data-trim>
-Observable
-    .just(&quot;The&quot;, &quot;Dave&quot;, &quot;Brubeck&quot;, &quot;Quartet&quot;, &quot;Time&quot;, &quot;Out&quot;)
-    .take(5)
-    .subscribe(new Subscriber&lt;String&gt;() {
-        public void onCompleted() {
-            System.out.println(&quot;Completed Observable.&quot;);
-        }
-
-        public void onError(Throwable throwable) {
-            System.err.println(&quot;Whoops: &quot; + throwable.getMessage());
-        }
-
-        public void onNext(String name) {
-            System.out.println(&quot;Got: &quot; + name);
-        }
-    });
-            </code></pre>
-            <pre class="fragment"><code data-trim>
-// This prints:
-Got: The
-Got: Dave
-Got: Brubeck
-Got: Quartet
-Got: Time
-Completed Observable.
-            </code></pre>
-
-            <aside class="notes">
-                <p>The subscribe method also returns a Subscription which you can use to unsubscribe and therefore do not receive further events.</p>
-                <p>Even if you don't unsubscribe explicitly, operations like take do that for you implicitly. The following code only takes the first five values and then unsubscribes:</p>
-            </aside>
-        </section>
-
-
-        <section>
-            <h2>Consuming Observables</h2>
-
             <pre><code data-trim>
 Observable
     .just(1, 2, 3)
@@ -374,185 +321,40 @@ Exception in thread "main" rx.exceptions.OnErrorNotImplementedException
 
 
 
-        <section id="async-to-sync">
+        <section id="unsubscribing">
 
             <section>
-                <h2>From Async to Sync</h2>
+                <h2>Unsubscribing in RxJava</h2>
 
                 <pre><code data-trim>
-public static void main(String... args) {
-    Observable
-        .interval(1, TimeUnit.SECONDS)
-        .subscribe(new Action1&lt;Long&gt;() {
-            @Override
-            public void call(Long counter) {
-                System.out.println(&quot;Got: &quot; + counter);
-            }
-        });
-}
-                </code></pre>
+Observable&lt;String&gt; o = retrofit.getObservable(..);
+Subscription s = o.subscribe(...);
 
-                <aside class="notes">
-                    <p>As long as your Observable works on the same thread all the time, there is no need for communication between threads since only one is executing. When your Observable flow gets executed on a different thread though, you need to take some extra care to make sure you are not missing values. This is not specific to Observables though, every time you need to deal with parallel threads you need to think about synchronization and communication.</p>
-                    <p>The following code emits a increasing value every second, and this is done on a different thread:</p>
-                    <p>It works perfectly fine, the only problem is though chances are you won't see anything printed out. This is because your main thread exits before the background thread had a chance to run and emit values.</p>
-                </aside>
+// later when not needed
+s.unsubscribe();
+                </code></pre>
             </section>
 
 
             <section>
-                <h2>From Async to Sync</h2>
-
-                <pre><code data-trim>
-final CountDownLatch latch = new CountDownLatch(5);
-Observable
-    .interval(1, TimeUnit.SECONDS)
-    .subscribe(new Action1&lt;Long&gt;() {
-        @Override
-        public void call(Long counter) {
-            latch.countDown();
-            System.out.println(&quot;Got: &quot; + counter);
-        }
-    });
-
-latch.await();
-                </code></pre>
-
-                <pre class="fragment"><code data-trim>
-Got: 0
-Got: 1
-Got: 2
-Got: 3
-Got: 4
-                </code></pre>
-
-                <aside class="notes">
-                    <p>A common way to deal with such a situation is to add a CountDownLatch, which allows you to synchronize between different threads. One thread counts down the latch, the other one waits until it is counted down:</p>
-                    <p>One common mistake is to use Thread.sleep() instead of a latch to synchronize the execution between threads. This is a bad idea because it not really synchronizes anything, but just keeps one thread alive for a specific amount of time. If the actual calls take less time you are wasting time, and if it takes longer you won't get the desired effect. If you do this in unit tests, be prepared for a good amount of non-determinism and randomly failing tests. Always use a CountDownLatch.</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>From Async to Sync</h2>
-
-                <pre><code data-trim>
-// This does not block.
-BlockingObservable&lt;Long&gt; observable = Observable
-    .interval(1, TimeUnit.SECONDS)
-    .toBlocking();
-
-// This blocks and is called for every emitted item.
-observable.forEach(new Action1&lt;Long&gt;() {
-    @Override
-    public void call(Long counter) {
-        System.out.println(&quot;Got: &quot; + counter);
-    }
-});
-                </code></pre>
-
-                <aside class="notes">
-                    <p>A technique unique to Observables is to convert it into a BlockingObservable to achieve the same effect. In simple terms, it converts a Observable into a Iterable and making it execute on the caller thread, blocking it until one or more values arrive. This technique is used extensively in the documentation to show concepts, while not having to deal with CountDownLatches all the time. It can also be used if you for some reason are not able to use asynchronous computations.</p>
-                    <p>The conversion itself doesn't do any blocking in the first place, only subsequent calls will:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>From Async to Sync</h2>
+                <h4>Implicit Unsubscribing</h4>
 
                 <pre><code data-trim>
 Observable
-    .interval(1, TimeUnit.SECONDS)
-    .take(5)
-    .toBlocking()
-    .forEach(new Action1&lt;Long&gt;() {
-        @Override
-        public void call(Long counter) {
-            System.out.println(&quot;Got: &quot; + counter);
-        }
-    });
-                </code></pre>
+    .interval(10, TimeUnit.MILLISECONDS)
+    .map(x -> x*x)
+    .take(10)
+    .subscribe(System.out::println)
 
-                <aside class="notes">
-                    <p>Since this will run forever, you are free to chain any asynchronous computations before. So you ca build an asynchronous workflow and then block at the very end. This resembles the same code as with the CountDownLatch before:</p>
-                </aside>
+// 0 1 4 9 16 25 36 49 64 81
+                </code></pre>
             </section>
 
-
             <section>
-                <h2>From Async to Sync</h2>
+                <h2>Unsubscribing chain</h2>
 
-                <pre><code data-trim>
-int value = Observable
-    .just(1)
-    .toBlocking()
-    .single();
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-Exception in thread "main" java.lang.IllegalArgumentException: Sequence contains too many elements
-	at rx.internal.operators.OperatorSingle$1.onNext(OperatorSingle.java:58)
-	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:76)
-	at rx.Subscriber.setProducer(Subscriber.java:148)
-	at rx.Subscriber.setProducer(Subscriber.java:144)
-	....
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-Exception in thread "main" java.util.NoSuchElementException: Sequence contains no elements
-	at rx.internal.operators.OperatorSingle$1.onCompleted(OperatorSingle.java:82)
-	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:79)
-	at rx.Subscriber.setProducer(Subscriber.java:148)
-	at rx.Subscriber.setProducer(Subscriber.java:144)
-	at rx.Subscriber.setProducer(Subscriber.java:144)
-	at rx.Subscriber.setProducer(Subscriber.java:144)
-	....
-                </code></pre>
-
-                <aside class="notes">
-                    <p>If you know that only a single value is every returned, you can use the single() method:</p>
-                    <p>Be aware though that if more items get emitted, you get an exception:</p>
-                    <p>The same thing happens if no value gets emitted:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>From Async to Sync</h2>
-
-                <pre><code data-trim>
-JsonDocument doc = bucket.get("id").toBlocking().singleOrDefault(null);
-if (doc == null) {
-    System.err.println("Document not found!");
-} else {
-    System.out.println(doc);
-}
-                </code></pre>
-
-                <aside class="notes">
-                    <p>As an alternative, you can use singleOrDefault() so that a fallback value gets returned.</p>
-                    <p>You can use this technique with the Java SDK if you are loading a document and it does not exist:</p>
-                    <p>If you check out the API documentation of the BlockingObservable, you will discover many more possibilities, including iterators or grabbing the first and/or last valuess.</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>From Async to Sync</h2>
-
-                <pre><code data-trim>
-List&lt;Integer&gt; list = Observable
-    .just(1, 2, 3)
-    .toList()
-    .toBlocking()
-    .single();
-
-// Prints: [1, 2, 3]
-System.out.println(list);
-                </code></pre>
-
-                <aside class="notes">
-                    <p>One last thing that comes in handy with blocking calls: sometimes you want to collect all emitted values into a list. You can combine the blocking calls with the toList() operator to achieve something like this:</p>
-                </aside>
+                <img data-src="images/observable-chain-diagram.jpg"
+                     alt="Observable unsubscribe chain diagram">
             </section>
 
         </section>
@@ -560,6 +362,24 @@ System.out.println(list);
 
 
         <section id="creating-observable">
+
+            <section>
+                <h2>Creating observables</h2>
+
+                <ul class="fragment">
+                    <li>Create</li>
+                    <li>Defer</li>
+                    <li>Empty/Never/Throw</li>
+                    <li>From</li>
+                    <li>Interval</li>
+                    <li>Just</li>
+                    <li>Range</li>
+                    <li>Repeat</li>
+                    <li>Start</li>
+                    <li>Timer</li>
+                </ul>
+            </section>
+
 
             <section>
                 <h2>Creating observables</h2>
@@ -682,93 +502,89 @@ static final class CallOnSubscribe&lt;T&gt; implements Observable.OnSubscribe&lt
 
 
 
-        <section id="unsubscribing">
+        <section id="filtering">
 
             <section>
-                <h2>Unsubscribing in RxJava</h2>
+                <h2>Filtering Observables</h2>
 
                 <pre><code data-trim>
-Observable&lt;String&gt; o = retrofit.getObservable(..);
-Subscription s = o.subscribe(...);
-
-// later when not needed
-s.unsubscribe();
-                </code></pre>
-            </section>
-
-
-            <section>
-                <h2>Unsubscribing in RxJava</h2>
-
-                <pre><code data-trim>
+// This will only let 3 and 4 pass.
 Observable
-    .interval(10, TimeUnit.MILLISECONDS)
-    .map(x -> x*x)
-    .take(10)
-    .subscribe(System.out::println)
-
-// 0 1 4 9 16 25 36 49 64 81
+    .just(1, 2, 3, 4)
+    .filter(new Func1&lt;Integer, Boolean&gt;() {
+        @Override
+        public Boolean call(Integer integer) {
+            return integer &gt; 2;
+        }
+    }).subscribe();
                 </code></pre>
-            </section>
 
-            <section>
-                <h2>Unsubscribing in RxJava</h2>
-
-                <img data-src="images/observable-chain-diagram.jpg"
-                     alt="Observable unsubscribe chain diagram">
+                <aside class="notes">
+                    <p>In addition to transforming Observables, you can also filter them. Filtering doesn't change the emitted values itself, but rather how much and at which point (and if at all) they are emitted.</p>
+                    <p>For example, you can filter based on some criteria</p>
+                </aside>
             </section>
 
 
             <section>
-                <h2>Unsubscribing in RxJava</h2>
+                <h2>Filtering Observables</h2>
 
                 <pre><code data-trim>
-public class SomeActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        new Thread(new Runnable() {
-                 // this instance will keep the reference to the outer activity
-                @Override
-                public void run() {
-                       while(true) {
-                             // Some long-running task
-                       }
-                }
-        }).start();
-    }
-}
+// Only 1 will pass
+Observable
+    .just(1, 2, 3, 4)
+    .first()
+    .subscribe();
                 </code></pre>
+
+                <pre class="fragment"><code data-trim>
+// Only 4 will pass
+Observable
+    .just(1, 2, 3, 4)
+    .last()
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Or use only the first or last value emitted:</p>
+                </aside>
             </section>
 
 
             <section>
-                <h2>Unsubscribing in RxJava</h2>
+                <h2>Filtering Observables</h2>
 
-                <pre class="stretch"><code data-trim>
-class SomeFragment extends Fragment {
-
-     @Inject ClassThatProvidesObservable observableProvider;
-
-     private Observable observable;
-     private Subscription sub = Subscriptions.empty();
-
-     void onCreate() {
-         // depending on where it takes its arguments from, might as well do in the
-         // constructor, or have it injected
-         observable = observableProvider.provideObservable().replay();
-     }
-
-     void onViewCreated() {
-         subscription = observable.subscribe(viewSubscriber);
-     }
-
-     void onDestroyView() {
-         subscription.unsubscribe();
-     }
-}
+                <pre><code data-trim>
+// Only 1 and 2 will pass.
+Observable
+    .just(1, 2, 3, 4)
+    .take(2)
+    .subscribe();
                 </code></pre>
+
+                <aside class="notes">
+                    <p>Or take only the first N values emitted and then unsubscribe:</p>
+                </aside>
             </section>
+
+
+            <section>
+                <h2>Filtering Observables</h2>
+
+                <pre><code data-trim>
+// 1, 2, 3, 4 will be emitted
+Observable
+    .just(1, 2, 1, 3, 4, 2)
+    .distinct()
+    .subscribe();
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Finally, you can use distinct() to suppress duplicate values:</p>
+                    <p>distinct() also allows you to pass in a function which returns the key to select by. You can use this for example to separate out duplicate JsonDocuments.</p>
+                </aside>
+            </section>
+
         </section>
 
 
@@ -793,8 +609,7 @@ Observable
             return Long.toString(input);
         }
     })
-    .toBlocking()
-    .forEach(new Action1&lt;String&gt;() {
+    .subscribe(new Action1&lt;String&gt;() {
         @Override
         public void call(String s) {
             System.out.println(s);
@@ -813,33 +628,13 @@ Observable
                 <h2>Transforming observables</h2>
 
                 <pre><code data-trim>
-bucket
-    .get(&quot;id&quot;)
-    .map(new Func1&lt;JsonDocument, String&gt;() {
-        @Override
-        public String call(JsonDocument document) {
-            return document.content().getString(&quot;firstname&quot;);
-        }
-    }).subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>As a more practical example, consider loading a document from the Java SDK and only extracting the firstname of a user before passing it on:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Transforming observables</h2>
-
-                <pre><code data-trim>
 // Loads 3 documents in parallel
 Observable
-    .just(&quot;doc1&quot;, &quot;doc2&quot;, &quot;doc3&quot;)
+    .just(&quot;id1&quot;, &quot;id2&quot;, &quot;id3&quot;)
     .flatMap(new Func1&lt;String, Observable&lt;JsonDocument&gt;&gt;() {
         @Override
         public Observable&lt;JsonDocument&gt; call(String id) {
-            return bucket.get(id);
+            return retrofit.getById(id);
         }
     }).subscribe(new Action1&lt;JsonDocument&gt;() {
         @Override
@@ -856,130 +651,7 @@ Observable
                 </aside>
             </section>
 
-            </section>
 
-
-
-        <section id="optional">
-            <section id="m-word">
-                <h2>The M word</h2>
-
-                <img data-src="https://wiki.haskell.org/wikiupload/2/23/Monad-tutorials-chart.png"
-                     alt="Amount of known monad tutorials">
-
-                <a href="https://wiki.haskell.org/Monad_tutorials_timeline">https://wiki.haskell.org/Monad_tutorials_timeline</a>
-            </section>
-            <section>
-                <h2>Java 8</h2>
-
-                <p>java.util.Optional</p>
-            </section>
-
-            <section id="optional-npe">
-                <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175761.gif"
-                     alt="A nested structure for representing a Computer">
-
-            <pre><code data-trim>
-String version = computer.getSoundcard().getUSB().getVersion();
-            </code></pre>
-            </section>
-            <section id="optional-null-check">
-            <pre><code data-trim>
-String version = "UNKNOWN";
-if(computer != null){
-  Soundcard soundcard = computer.getSoundcard();
-  if(soundcard != null){
-    USB usb = soundcard.getUSB();
-    if(usb != null){
-      version = usb.getVersion();
-    }
-  }
-}
-            </code></pre>
-            </section>
-
-
-            <section id="optional-structure">
-            <pre><code data-trim>
-public class Computer {
-  private Optional&lt;Soundcard&gt; soundcard;
-  public Optional&lt;Soundcard&gt; getSoundcard() { ... }
-  ...
-}
-
-public class Soundcard {
-  private Optional&lt;USB&gt; usb;
-  public Optional&lt;USB&gt; getUSB() { ... }
-}
-
-public class USB{
-  public String getVersion(){ ... }
-}
-            </code></pre>
-            </section>
-
-
-            <section id="optional-nested">
-                <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175763.gif"
-                     alt=" A two-level Optional">
-            <pre><code  data-trim>
-Optional&lt;Optional&lt;Soundcard&gt;&gt;
-            </code></pre>
-            </section>
-
-
-            <section>
-                <img data-src="http://www.oracle.com/ocom/groups/public/@otn/documents/digitalasset/2175764.gif"
-                     alt="Using map versus flatMap with Optional">
-            </section>
-
-
-            <section id="optional-flatmap">
-            <pre><code data-trim>
-String name = computer.flatMap(Computer::getSoundcard)
-                      .flatMap(Soundcard::getUSB)
-                      .map(USB::getVersion)
-                      .orElse("UNKNOWN");
-            </code></pre>
-            </section>
-
-
-            <section id="optional-observable">
-            <pre><code data-trim>
-public class Computer {
-  public Observable&lt;Soundcard&gt; getSoundcard() { ... }
-  ...
-}
-
-public class Soundcard {
-  public Observable&lt;USB&gt; getUSB() { ... }
-}
-            </code></pre>
-            </section>
-
-
-            <section id="optional-catpic">
-                <img data-src="https://pbs.twimg.com/media/BjbR-1aIIAAHStC.png:large"
-                     alt="cat in a box, in a box.">
-
-            <pre><code data-trim>
-Observable&lt;Observable&lt;USB&gt;&gt;&gt; getUSB() { ... }
-            </code></pre>
-            </section>
-
-            <section id="optional-flatmap-observable">
-            <pre><code data-trim>
-Observable&lt;String&gt; name = computer.flatMap(Computer::getSoundcard)
-                                  .flatMap(Soundcard::getUSB)
-                                  .map(USB::getVersion)
-                                  .defaultIfEmpty(&quot;UNKNOWN&quot;);
-            </code></pre>
-            </section>
-        </section>
-
-
-
-        <section id="transforming">
             <section>
                 <h2>Transforming observables</h2>
 
@@ -1016,147 +688,13 @@ Sum: 15
             <section>
                 <h2>Transforming observables</h2>
 
-                <pre class="stretch"><code data-trim>
-Observable
-    .just(1, 2, 3, 4, 5)
-    .groupBy(new Func1&lt;Integer, Boolean&gt;() {
-        public Boolean call(Integer integer) {
-            return integer % 2 == 0;
-        }
-    }).subscribe(new Action1&lt;GroupedObservable&lt;Boolean, Integer&gt;&gt;() {
-        public void call(GroupedObservable&lt;Boolean, Integer&gt; grouped) {
-            grouped.toList().subscribe(new Action1&lt;List&lt;Integer&gt;&gt;() {
-                @Override
-                public void call(List&lt;Integer&gt; integers) {
-                    System.out.println(integers + &quot; (Even: &quot; + grouped.getKey() + &quot;)&quot;);
-                }
-            });
-        }
-    });
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-// This prints:
-[1, 3, 5] (Even: false)
-[2, 4] (Even: true)
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Finally, groupBy() comes in handy, which emits one Observable by each group, defined by a function. The following example emits two Observables, one for even and one for odd values:</p>
-                </aside>
+                <ul>
+                    <li>map :: T -> R</li>
+                    <li>flatMap :: T -&gt; Observable&lt;R&gt;</li>
+                    <li>compose :: Observable&lt;T&gt; -&gt; Observable&lt;R&gt;</li>
+                </ul>
             </section>
 
-
-            <section>
-                <h2>Transforming observables</h2>
-
-                <pre><code data-trim>
-bucket
-    .query(ViewQuery.from("my_design_doc", "my_view"))
-    .flatMap(ViewResult::rows)
-    .flatMap(ViewRow::document)
-    .groupBy(document -> document.content().getString("type"))
-    .subscribe(observable ->
-        observable.count().subscribe(integer ->
-            System.out.println(observable.getKey() + ": " + integer)
-        )
-    );
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-// This prints:
-brewery: 1412
-beer: 5891
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Combined with the Java SDK, this technique can be used to separate returned Documents based on their content. The following example uses a view to load all documents from the beer-sample bucket, groups them by type and counts the number of occurrences:</p>
-                    <p>This code queries the view, extracts all rows, loads the full document for each row, groups it by the "type" property in the JSON document and then uses the count() operator to count the number of rows emitted by each observable. This prints something like:</p>
-                </aside>
-            </section>
-        </section>
-
-
-
-        <section id="filtering">
-            <section>
-                <h2>Filtering Observables</h2>
-
-                <pre><code data-trim>
-// This will only let 3 and 4 pass.
-Observable
-    .just(1, 2, 3, 4)
-    .filter(new Func1&lt;Integer, Boolean&gt;() {
-        @Override
-        public Boolean call(Integer integer) {
-            return integer &gt; 2;
-        }
-    }).subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>In addition to transforming Observables, you can also filter them. Filtering doesn't change the emitted values itself, but rather how much and at which point (and if at all) they are emitted.</p>
-                    <p>For example, you can filter based on some criteria</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Filtering Observables</h2>
-
-                <pre><code data-trim>
-// Only 1 and 2 will pass.
-Observable
-    .just(1, 2, 3, 4)
-    .take(2)
-    .subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Or take only the first N values emitted and then unsubscribe:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Filtering Observables</h2>
-
-                <pre><code data-trim>
-// Only 1 will pass
-Observable
-    .just(1, 2, 3, 4)
-    .first()
-    .subscribe();
-                </code></pre>
-
-                <pre class="fragment"><code data-trim>
-// Only 4 will pass
-Observable
-    .just(1, 2, 3, 4)
-    .last()
-    .subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Or use only the first or last value emitted:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Filtering Observables</h2>
-
-                <pre><code data-trim>
-// 1, 2, 3, 4 will be emitted
-Observable
-    .just(1, 2, 1, 3, 4, 2)
-    .distinct()
-    .subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Finally, you can use distinct() to suppress duplicate values:</p>
-                    <p>distinct() also allows you to pass in a function which returns the key to select by. You can use this for example to separate out duplicate JsonDocuments.</p>
-                </aside>
-            </section>
         </section>
 
 
@@ -1166,14 +704,12 @@ Observable
                 <h2>Combining Observables</h2>
 
                 <pre><code data-trim>
+Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
+Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
+
 Observable
     .merge(evens, odds)
-    .subscribe(new Action1&lt;Integer&gt;() {
-        @Override
-        public void call(Integer integer) {
-            System.out.println(integer);
-        }
-    });
+    .subscribe(System.out::println);
                 </code></pre>
                 <pre class="fragment"><code data-trim>
 // This prints:
@@ -1232,7 +768,7 @@ Observable
                 <h2>Error Handling</h2>
 
                 <ul>
-                    <li> Return a default value instead</li>
+                    <li class="fragment">Return a default value instead</li>
                     <li class="fragment">Flip over to a backup Observable</li>
                     <li class="fragment">Retry the Observable (immediately or with backoff)</li>
                 </ul>
@@ -1244,7 +780,7 @@ Observable
 
 
             <section>
-                <h2>Error Handling</h2>
+                <h4>Default value</h4>
 
                 <pre><code data-trim>
 Observable
@@ -1271,12 +807,12 @@ Default
 
 
             <section>
-                <h2>Error Handling</h2>
+                <h4>Fallback observable</h4>
 
                 <pre><code data-trim>
-bucket
-    .get(&quot;id&quot;)
-    .onErrorResumeNext(bucket.getFromReplica(&quot;id&quot;, ReplicaMode.ALL))
+retrofitService
+    .getById(&quot;id&quot;)
+    .onErrorResumeNext(dbHelper.getById(&quot;id&quot;))
     .subscribe();
                 </code></pre>
 
@@ -1287,17 +823,17 @@ bucket
 
 
             <section>
-                <h2>Error Handling</h2>
+                <h4>Control fallback observable</h4>
 
                 <pre><code data-trim>
-bucket
-    .get(&quot;id&quot;)
-    .timeout(500, TimeUnit.MILLISECONDS)
+retrofitService
+    .getById(&quot;id&quot;)
+    .timeout(10, TimeUnit.SECONDS)
     .onErrorResumeNext(new Func1&lt;Throwable, Observable&lt;? extends JsonDocument&gt;&gt;() {
         @Override
         public Observable&lt;? extends JsonDocument&gt; call(Throwable throwable) {
             if (throwable instanceof TimeoutException) {
-                return bucket.getFromReplica(&quot;id&quot;, ReplicaMode.ALL);
+                return dbHelper.getById(&quot;id&quot;);
             }
             return Observable.error(throwable);
         }
@@ -1311,19 +847,13 @@ bucket
 
 
             <section>
-                <h2>Error Handling</h2>
+                <h4>Retry</h4>
 
                 <pre><code data-trim>
-Observable
-    .just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-    .doOnNext(integer -&gt; {
-        if (new Random().nextInt(10) + 1 == 5) {
-            throw new RuntimeException(&quot;Boo!&quot;);
-        }
-    })
+googleCloudMessaging
+    .getRegistrationId(context)
     .retry() // retry(count)
-    .distinct()
-    .subscribe(System.out::println);
+    .subscribe();
                 </code></pre>
 
                 <aside class="notes">
@@ -1335,38 +865,18 @@ Observable
 
 
             <section>
-                <h2>Error Handling</h2>
+                <h2>Retry with backoff</h2>
 
                 <pre><code data-trim>
-Observable
-    .range(1, 10)
-    .doOnNext(integer -&gt; {
-        if (new Random().nextInt(10) + 1 == 5) {
-            throw new RuntimeException(&quot;Boo!&quot;);
-        }
-    })
+googleCloudMessaging
+    .getRegistrationId(context)
     .retryWhen(attempts -&gt;
         attempts.zipWith(Observable.range(1, 3), (n, i) -&gt; i)
         .flatMap(i -&gt; {
             System.out.println(&quot;delay retry by &quot; + i + &quot; second(s)&quot;);
             return Observable.timer(i, TimeUnit.SECONDS);
         }))
-    .distinct()
-    .subscribe(System.out::println);
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-1
-2
-3
-4
-delay retry by 1 second(s)
-delay retry by 2 second(s)
-5
-6
-7
-8
-9
-10
+    .subscribe();
                 </code></pre>
 
                 <aside class="notes">
@@ -1391,8 +901,6 @@ delay retry by 2 second(s)
                     <li class="fragment">Schedulers.computation()</li>
                     <li class="fragment">Schedulers.trampoline()</li>
                     <li class="fragment">Schedulers.test()</li>
-                    <li class="fragment">HandlerScheduler.from(handler)</li>
-                    <li class="fragment">AndroidSchedulers.mainThread()</li>
                 </ul>
 
                 <aside class="notes">
@@ -1404,10 +912,10 @@ delay retry by 2 second(s)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>Apply schedulers</h4>
 
                 <ul>
-                    <li>Implicitly by using an operator that makes use of one</li>
+                    <li class="fragment">Implicitly by using an operator that makes use of one</li>
                     <li class="fragment">Explicitly by passing the Scheduler to such an operator</li>
                     <li class="fragment">By using subscribeOn(Scheduler)</li>
                     <li class="fragment">By using observeOn(Scheduler)</li>
@@ -1422,7 +930,7 @@ delay retry by 2 second(s)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h2>No scheduler</h2>
 
                 <pre><code data-trim>
 Observable
@@ -1455,7 +963,7 @@ Got: 7 (main)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>Schedulers & Threads</h4>
 
                 <img data-src="images/schedulers-chain.jpg"
                      alt="Schedulers chain">
@@ -1463,7 +971,7 @@ Got: 7 (main)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>SubscribeOn scheduler</h4>
 
                 <pre><code data-trim>
 Observable
@@ -1498,7 +1006,7 @@ Got: 7 (RxComputationThreadPool-6)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>ObserveOn scheduler</h4>
 
                 <pre><code data-trim>
 Observable
@@ -1534,7 +1042,7 @@ Got: 7 (RxComputationThreadPool-6)
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>Multiple subscribeOn</h4>
 
                 <pre><code data-trim>
 Observable.range(1, 5)
@@ -1555,7 +1063,7 @@ RxComputationThreadPool-1
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>Multiple observeOn</h4>
 
                 <pre><code data-trim>
 Observable.range(1, 5)
@@ -1576,7 +1084,7 @@ RxCachedThreadScheduler-1
 
 
             <section>
-                <h2>Schedulers & Threads</h2>
+                <h4>Multiple observeOn</h4>
 
                 <pre><code data-trim>
 Observable.range(1, 5)
@@ -1612,7 +1120,7 @@ RxCachedThreadScheduler-1
             </section>
 
             <section>
-                <h2>Android Schedulers</h2>
+                <h4>Force mainThread</h4>
 
                 <pre><code data-trim>
 retrofitService.someNetworkCall()
@@ -1634,7 +1142,7 @@ public class MyActivity extends Activity {
             </section>
 
             <section>
-                <h2>Android Schedulers</h2>
+                <h4>Main thread android scheduler</h4>
 
                 <pre><code data-trim>
 public class MyActivity extends Activity {
@@ -1658,38 +1166,239 @@ public class MyActivity extends Activity {
         </section>
 
 
-        <section id="results">
-        <section>
-            <h2>Seems to work? Ship it!</h2>
-            <ul>
-                <li>Hot vs Cold Observable</li>
-                <li class="fragment">Back pressure</li>
-                <li class="fragment">Architecture design (bus, cache, lifecycle)</li>
-                <li class="fragment">Test scheduler / Test subscriber</li>
-                <li class="fragment">Lamda support</li>
-            </ul>
-        </section>
-        <section id="resume-pro">
-            <h2>Pro</h2>
-            <ul>
-                <li>RxJava is new AsyncTask</li>
-                <li class="fragment">Support for stream are coming from JDK8 and JDK9. With RxJava you are living in the Future.</li>
-            </ul>
+
+        <section id="async-to-sync">
+
+            <section>
+                <h2>From Async to Sync</h2>
+
+                <pre><code data-trim>
+@Test public void asyncMethod() {
+    Observable.interval(1, TimeUnit.SECONDS)
+              .subscribe(new Action1&lt;Long&gt;() {
+                  @Override
+                  public void call(Long counter) {
+                      assertTrue(counter == 9999);
+                  }
+              });
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>As long as your Observable works on the same thread all the time, there is no need for communication between threads since only one is executing. When your Observable flow gets executed on a different thread though, you need to take some extra care to make sure you are not missing values. This is not specific to Observables though, every time you need to deal with parallel threads you need to think about synchronization and communication.</p>
+                    <p>The following code emits a increasing value every second, and this is done on a different thread:</p>
+                    <p>It works perfectly fine, the only problem is though chances are you won't see anything printed out. This is because your main thread exits before the background thread had a chance to run and emit values.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Thread sleep</h4>
+
+                <pre><code data-trim>
+@Test public void threadSleep() throws InterruptedException {
+    Observable.interval(1, TimeUnit.SECONDS)
+              .subscribe(new Action1&lt;Long&gt;() {
+                  @Override
+                  public void call(Long counter) {
+                      assertTrue(counter == 9999);
+                  }
+              });
+
+    Thread.sleep(11000);
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h4>countDownLatch</h4>
+
+                <pre><code data-trim>
+@Test public void countDownLatch() throws InterruptedException {
+    final CountDownLatch latch = new CountDownLatch(1);
+    Observable.interval(1, TimeUnit.SECONDS)
+              .subscribe(new Action1&lt;Long&gt;() {
+                  @Override
+                  public void call(Long counter) {
+                      assertTrue(counter == 9999);
+                      latch.countDown();
+                  }
+              });
+    latch.await();
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>A common way to deal with such a situation is to add a CountDownLatch, which allows you to synchronize between different threads. One thread counts down the latch, the other one waits until it is counted down:</p>
+                    <p>One common mistake is to use Thread.sleep() instead of a latch to synchronize the execution between threads. This is a bad idea because it not really synchronizes anything, but just keeps one thread alive for a specific amount of time. If the actual calls take less time you are wasting time, and if it takes longer you won't get the desired effect. If you do this in unit tests, be prepared for a good amount of non-determinism and randomly failing tests. Always use a CountDownLatch.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Blocking Observable</h4>
+
+                <pre><code data-trim>
+@Test public void blockingObservable() throws InterruptedException {
+    // This does not block.
+    BlockingObservable&lt;Long&gt; observable = Observable
+            .interval(1, TimeUnit.SECONDS)
+            .take(1)
+            .toBlocking();
+
+    // This blocks and is called for every emitted item.
+    observable.forEach(new Action1&lt;Long&gt;() {
+        @Override
+        public void call(Long counter) {
+            assertTrue(counter == 9999);
+        }
+    });
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>A technique unique to Observables is to convert it into a BlockingObservable to achieve the same effect. In simple terms, it converts a Observable into a Iterable and making it execute on the caller thread, blocking it until one or more values arrive. This technique is used extensively in the documentation to show concepts, while not having to deal with CountDownLatches all the time. It can also be used if you for some reason are not able to use asynchronous computations.</p>
+                    <p>The conversion itself doesn't do any blocking in the first place, only subsequent calls will:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Single</h4>
+
+                <pre><code data-trim>
+int value = Observable
+    .just(1)
+    .toBlocking()
+    .single();
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Exception in thread "main" java.lang.IllegalArgumentException: Sequence contains too many elements
+	at rx.internal.operators.OperatorSingle$1.onNext(OperatorSingle.java:58)
+	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:76)
+	at rx.Subscriber.setProducer(Subscriber.java:148)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	....
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+Exception in thread "main" java.util.NoSuchElementException: Sequence contains no elements
+	at rx.internal.operators.OperatorSingle$1.onCompleted(OperatorSingle.java:82)
+	at rx.internal.operators.OnSubscribeFromIterable$IterableProducer.request(OnSubscribeFromIterable.java:79)
+	at rx.Subscriber.setProducer(Subscriber.java:148)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	at rx.Subscriber.setProducer(Subscriber.java:144)
+	....
+                </code></pre>
+
+                <aside class="notes">
+                    <p>If you know that only a single value is every returned, you can use the single() method:</p>
+                    <p>Be aware though that if more items get emitted, you get an exception:</p>
+                    <p>The same thing happens if no value gets emitted:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Single or default</h4>
+
+                <pre><code data-trim>
+JsonDocument doc = dbHelper.get("id")
+                           .toBlocking()
+                           .singleOrDefault(null);
+if (doc == null) {
+    System.err.println("Document not found!");
+} else {
+    System.out.println(doc);
+}
+                </code></pre>
+
+                <aside class="notes">
+                    <p>As an alternative, you can use singleOrDefault() so that a fallback value gets returned.</p>
+                    <p>You can use this technique with the Java SDK if you are loading a document and it does not exist:</p>
+                    <p>If you check out the API documentation of the BlockingObservable, you will discover many more possibilities, including iterators or grabbing the first and/or last valuess.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Test subscriber</h4>
+
+                <pre><code data-trim>
+@Test public void testSubscriber() throws InterruptedException {
+    TestSubscriber&lt;Long&gt; ts = new TestSubscriber&lt;&gt;();
+    Observable.interval(1, TimeUnit.SECONDS)
+              .take(1)
+              .subscribe(ts);
+    ts.awaitTerminalEvent();
+    ts.assertValue((long) 999);
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h4>Test scheduler</h4>
+
+                <pre><code data-trim>
+@Test public void testScheduler() throws InterruptedException {
+    TestScheduler testScheduler = new TestScheduler();
+    Observable.interval(1, TimeUnit.SECONDS, testScheduler)
+              .subscribe(new Action1&lt;Long&gt;() {
+                  @Override
+                  public void call(Long counter) {
+                      assertTrue(counter == 9999);
+                  }
+              });
+    testScheduler.advanceTimeTo(2, TimeUnit.SECONDS);
+}
+                </code></pre>
+            </section>
         </section>
 
-        <section id="resume-cons">
-            <h2>Cons</h2>
-            <ul>
-                <li>memory allocation</li>
-                <li class="fragment">step debug vs logging</li>
-                <li class="fragment">learning curve</li>
-            </ul>
-        </section>
+
+        <section id="results">
+
+            <section>
+                <h2>Seems to work? Ship it!</h2>
+
+                <ul>
+                    <li class="fragment">Lamda support</li>
+                    <li class="fragment">Hot vs Cold Observable</li>
+                    <li class="fragment">Back pressure</li>
+                    <li class="fragment">Architecture design: bus, cache, lifecycle, rotation, memory leaks</li>
+                </ul>
+            </section>
+
+
+            <section id="resume-pro">
+                <h2>Pro</h2>
+
+                <ul>
+                    <li class="fragment">RxJava is new AsyncTask</li>
+                    <li class="fragment">Support for stream are coming from JDK8 and JDK9. With RxJava you are living in the Future.</li>
+                    <li class="fragment">Knowledge level up</li>
+                </ul>
+            </section>
+
+
+            <section id="resume-cons">
+                <h2>Cons</h2>
+
+                <ul>
+                    <li class="fragment"><strike>No way back</strike></li>
+                    <li class="fragment">memory allocation</li>
+                    <li class="fragment">step debug vs logging</li>
+                    <li class="fragment">learning curve</li>
+                </ul>
+            </section>
+
 
             <section>
                 <h2>Learning curve</h2>
                 <ul>
-                    <li>Initial step</li>
+                    <li class="fragment">Initial step</li>
                     <li class="fragment">Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.</li>
                     <li class="fragment">Layers of rock star programmers</li>
                 </ul>
