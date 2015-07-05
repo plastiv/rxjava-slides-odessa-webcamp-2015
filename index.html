@@ -119,23 +119,19 @@
         <section id="understanding">
 
             <section>
-                <h2>Understanding Observables</h2>
-
                 <img data-src="images/mental-shift.png"
                      alt="Understanding Observables: mental shift">
             </section>
 
 
             <section>
-                <h2>Understanding Observables</h2>
-
                 <img data-src="images/sync-vs-observable.png"
                      alt="Sync vs observable">
             </section>
 
 
             <section>
-                <h2>Understanding Observables</h2>
+                <h2>Single API declaration</h2>
 
                 <pre><code data-trim>
 public interface FooService {
@@ -507,6 +503,23 @@ static final class CallOnSubscribe&lt;T&gt; implements Observable.OnSubscribe&lt
             <section>
                 <h2>Filtering Observables</h2>
 
+                <ul>
+                    <li>Debounce</li>
+                    <li>Distinct</li>
+                    <li>ElementAt</li>
+                    <li>Filter</li>
+                    <li>First / Last</li>
+                    <li>IgnoreElements</li>
+                    <li>Sample</li>
+                    <li>Skip / SkipLast</li>
+                    <li>Take / TakeLast</li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h4>Filter</h4>
+
                 <pre><code data-trim>
 // This will only let 3 and 4 pass.
 Observable
@@ -527,7 +540,7 @@ Observable
 
 
             <section>
-                <h2>Filtering Observables</h2>
+                <h4>First / Last</h4>
 
                 <pre><code data-trim>
 // Only 1 will pass
@@ -552,24 +565,7 @@ Observable
 
 
             <section>
-                <h2>Filtering Observables</h2>
-
-                <pre><code data-trim>
-// Only 1 and 2 will pass.
-Observable
-    .just(1, 2, 3, 4)
-    .take(2)
-    .subscribe();
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Or take only the first N values emitted and then unsubscribe:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Filtering Observables</h2>
+                <h4>Distinct</h4>
 
                 <pre><code data-trim>
 // 1, 2, 3, 4 will be emitted
@@ -589,10 +585,104 @@ Observable
 
 
 
+
+        <section id="combining">
+
+            <section>
+                <h2>Combining observable</h2>
+
+                <ul>
+                    <li>And/Then/When</li>
+                    <li>CombineLatest</li>
+                    <li>Join</li>
+                    <li>Merge</li>
+                    <li>StartWith</li>
+                    <li>Switch</li>
+                    <li>Zip</li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h4>Merge</h4>
+
+                <pre><code data-trim>
+                    Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
+                    Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
+
+                    Observable
+                    .merge(evens, odds)
+                    .subscribe(System.out::println);
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+                    // This prints:
+                    2
+                    4
+                    6
+                    8
+                    10
+                    1
+                    3
+                    5
+                    7
+                    9
+                </code></pre>
+
+                <aside class="notes">
+                    <p>Multiple Observables can also be merged to form a combined one. Depending on how you want those to be merged, there are different operators available. Two of the most used ones are merge() and zip() which are covered here.</p>
+                    <p>Merge really just merges all emitted values by the source observables in the order they arrive:</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h4>Zip</h4>
+
+                <pre><code data-trim>
+                    Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
+                    Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
+
+                    Observable
+                    .zip(evens, odds, (v1, v2) -&gt; v1 + &quot; + &quot; + v2 + &quot; is: &quot; + (v1 + v2))
+                    .subscribe(System.out::println);
+                </code></pre>
+                <pre class="fragment"><code data-trim>
+                    // This prints:
+                    2 + 1 is: 3
+                    4 + 3 is: 7
+                    6 + 5 is: 11
+                    8 + 7 is: 15
+                    10 + 9 is: 19
+                </code></pre>
+
+                <aside class="notes">
+                    <p>With the zip operator, you can combine two streams in the stricly same order, defined by a function:</p>
+                    <p>This zips each pairs togehter in order and prints:</p>
+                </aside>
+            </section>
+
+        </section>
+
+
+        
         <section id="transforming-observable">
 
             <section>
                 <h2>Transforming observables</h2>
+
+                <ul>
+                    <li>Buffer</li>
+                    <li>FlatMap</li>
+                    <li>GroupBy</li>
+                    <li>Map</li>
+                    <li>Scan</li>
+                    <li>Window</li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h4>FizzBuzz game</h4>
 
                 <pre class="stretch"><code data-trim>
 Observable
@@ -625,7 +715,7 @@ Observable
 
 
             <section>
-                <h2>Transforming observables</h2>
+                <h4>FlatMap</h4>
 
                 <pre><code data-trim>
 // Loads 3 documents in parallel
@@ -653,7 +743,7 @@ Observable
 
 
             <section>
-                <h2>Transforming observables</h2>
+                <h4>Scan</h4>
 
                 <pre><code data-trim>
 Observable
@@ -686,7 +776,7 @@ Sum: 15
 
 
             <section>
-                <h2>Transforming observables</h2>
+                <h4>map / flatMap / compose</h4>
 
                 <ul>
                     <li>map :: T -> R</li>
@@ -695,67 +785,9 @@ Sum: 15
                 </ul>
             </section>
 
-        </section>
-
-
-
-        <section id="combining">
             <section>
-                <h2>Combining Observables</h2>
-
-                <pre><code data-trim>
-Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
-Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
-
-Observable
-    .merge(evens, odds)
-    .subscribe(System.out::println);
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-// This prints:
-2
-4
-6
-8
-10
-1
-3
-5
-7
-9
-                </code></pre>
-
-                <aside class="notes">
-                    <p>Multiple Observables can also be merged to form a combined one. Depending on how you want those to be merged, there are different operators available. Two of the most used ones are merge() and zip() which are covered here.</p>
-                    <p>Merge really just merges all emitted values by the source observables in the order they arrive:</p>
-                </aside>
-            </section>
-
-
-            <section>
-                <h2>Combining Observables</h2>
-
-                <pre><code data-trim>
-Observable&lt;Integer&gt; evens = Observable.just(2, 4, 6, 8, 10);
-Observable&lt;Integer&gt; odds = Observable.just(1, 3, 5, 7, 9);
-
-Observable
-    .zip(evens, odds, (v1, v2) -&gt; v1 + &quot; + &quot; + v2 + &quot; is: &quot; + (v1 + v2))
-    .subscribe(System.out::println);
-                </code></pre>
-                <pre class="fragment"><code data-trim>
-// This prints:
-2 + 1 is: 3
-4 + 3 is: 7
-6 + 5 is: 11
-8 + 7 is: 15
-10 + 9 is: 19
-                </code></pre>
-
-                <aside class="notes">
-                    <p>With the zip operator, you can combine two streams in the stricly same order, defined by a function:</p>
-                    <p>This zips each pairs togehter in order and prints:</p>
-                </aside>
+                <img data-src="images/rxjava-puzzle.gif"
+                     alt="Puzzle">
             </section>
 
         </section>
@@ -893,21 +925,8 @@ googleCloudMessaging
             <section>
                 <h2>Schedulers & Threads</h2>
 
-                <ul>
-                    <li class="fragment">Schedulers.newThread()</li>
-                    <li class="fragment">Schedulers.from(executor)</li>
-                    <li class="fragment">Schedulers.io()</li>
-                    <li class="fragment">Schedulers.immediate()</li>
-                    <li class="fragment">Schedulers.computation()</li>
-                    <li class="fragment">Schedulers.trampoline()</li>
-                    <li class="fragment">Schedulers.test()</li>
-                </ul>
-
-                <aside class="notes">
-                    <p>Schedulers in RxJava are used to manage and control concurrency. Some operators implicitly use one and/or allow you to pass in a custom one.</p>
-                    <p>RxJava ships with a bunch of preconfigured Schedulers by default, which are all accessible through the Schedulers class:</p>
-                    <p>As a rule of thumb, the computation scheduler should always be used for in-memory processing, while the IO scheduler should only be used for blocking-style IO operations (so do not use it together with the Java SDK since it is asynchronous anyway!).</p>
-                </aside>
+                <img data-src="images/cross-traffic.gif"
+                     alt="Sync vs observable">
             </section>
 
 
@@ -925,6 +944,27 @@ googleCloudMessaging
                     <p>You can instruct an Observable to be executed on such a scheduler in four different ways:</p>
                     <p>Operators like buffer, replay, skip, delay, parallel and so forth use a Scheduler by default if not instructed otherwise. A list of default schedulers can be found here: https://github.com/ReactiveX/RxJava/wiki/Scheduler#default-schedulers-for-rxjava-observable-operators</p>
                     <p>As a rule of thumb, all of those operators allow you to pass in a custom Scheduler if needed, but most of the time sticking with the defaults is a good idea.</p>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>Schedulers & Threads</h2>
+
+                <ul>
+                    <li class="fragment">Schedulers.newThread()</li>
+                    <li class="fragment">Schedulers.from(executor)</li>
+                    <li class="fragment">Schedulers.io()</li>
+                    <li class="fragment">Schedulers.immediate()</li>
+                    <li class="fragment">Schedulers.computation()</li>
+                    <li class="fragment">Schedulers.trampoline()</li>
+                    <li class="fragment">Schedulers.test()</li>
+                </ul>
+
+                <aside class="notes">
+                    <p>Schedulers in RxJava are used to manage and control concurrency. Some operators implicitly use one and/or allow you to pass in a custom one.</p>
+                    <p>RxJava ships with a bunch of preconfigured Schedulers by default, which are all accessible through the Schedulers class:</p>
+                    <p>As a rule of thumb, the computation scheduler should always be used for in-memory processing, while the IO scheduler should only be used for blocking-style IO operations (so do not use it together with the Java SDK since it is asynchronous anyway!).</p>
                 </aside>
             </section>
 
@@ -963,14 +1003,6 @@ Got: 7 (main)
 
 
             <section>
-                <h4>Schedulers & Threads</h4>
-
-                <img data-src="images/schedulers-chain.jpg"
-                     alt="Schedulers chain">
-            </section>
-
-
-            <section>
                 <h4>SubscribeOn scheduler</h4>
 
                 <pre><code data-trim>
@@ -1002,6 +1034,14 @@ Got: 7 (RxComputationThreadPool-6)
                     <p>If you add subscribeOn() somewhere in the flow (it doesn't matter where):</p>
                     <p>You can see it is executed on the same thread, but on the computation thread pool:</p>
                 </aside>
+            </section>
+
+
+            <section>
+                <h4>Schedulers & Threads</h4>
+
+                <img data-src="images/schedulers-chain.jpg"
+                     alt="Schedulers chain">
             </section>
 
 
@@ -1412,6 +1452,7 @@ if (doc == null) {
                     <li>Tuts - <a href="https://gist.github.com/plastiv/6f097406b4ed9a0d096c">gist.github.com/plastiv/6f097406b4ed9a0d096c</a></li>
                     <li>Libs - <a href="https://gist.github.com/plastiv/985b2f5eb781e975420a">gist.github.com/plastiv/985b2f5eb781e975420a</a></li>
                 </ul>
+
             </section>
         </section>
 
